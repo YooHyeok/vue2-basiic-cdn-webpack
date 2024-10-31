@@ -18,6 +18,11 @@
     data: {
       liked: false,
     },
+    methods: {
+      onClickButton() {
+        this.liked = true; // data.liked = true와 같게 동작된다.
+      }
+    }
   });
 </script>
 </html>
