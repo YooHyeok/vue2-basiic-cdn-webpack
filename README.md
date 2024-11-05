@@ -149,16 +149,45 @@ vue에서는 v-on 디렉티브를 활용한다.
 
 </details>
 <details>
-<summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-if 디렉티브</summary>
 <br>
+js에서는 조건부 렌더링을 dom 객체를 직접 탐색하여 css 속성을 부여하여 제어한다.  
+react에서는 3항연산자나 && 혹은 || 조건으로 데이터 혹은 JSX 태그를 직접 제어한다.  
+vue 에서는 v-if 디렉티브 속성을 data 변수와 함께 부여하여 조건부 렌더링을 적용한다.
 
 - ### 예제코드
 
   ```html
-  ```
-
-- ### 예제코드
-  ```js
+  <!DOCTYPE html>
+  <html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>좋아요</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <div v-if="liked">좋아요 눌렀음</div> <!-- v-if 조건부 랜더링 적용 -->
+      <button v-on:click="onClickButton">Like</button>
+    </div>
+  </body>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data: {
+        liked: false,
+      },
+      methods: {
+        onClickButton() {
+          console.log(this.liked)
+          this.liked = true;
+          console.log(this.liked)
+        }
+      }
+    });
+  </script>
+  </html>
   ```
 
 </details>
