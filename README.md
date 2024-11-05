@@ -1,7 +1,9 @@
 # vue2-basiic-cdn-zerocho
 
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">CDN</summary>
+<br>
 
-# CDN
 Webpack Babel이 아닌 순수 HTML로 Vue를 구현한다.
 
 ```html
@@ -15,7 +17,11 @@ Webpack Babel이 아닌 순수 HTML로 Vue를 구현한다.
 </html>
 ```
 
-# Vue 인스턴스 초기화 및 root 영역 할당
+
+</details>
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">Vue 인스턴스 초기화 및 root 영역 할당</summary>
+<br>
 
 ```html
 <body>
@@ -30,7 +36,13 @@ Webpack Babel이 아닌 순수 HTML로 Vue를 구현한다.
 </script>
 ```
 
-# data 속성
+
+</details>
+
+
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">data 속성</summary>
+<br>
 
 Vue나 React 같은 싱글페이지 애플리케이션의 경우 브라우저의 주소창이 변경되지 않는다.
 즉, 하나의 페이지에서 화면을 바꾸는 원리이므로 기존 코딩된 영역 혹은 데이터가 다른 영역/데이터로 변경된다.
@@ -58,7 +70,11 @@ Vue에서는 데이터의 변경을 감지하고 데이터가 사용되는 영�
 해당 객체는 this로 접근이 가능하다.
 `data.liked` == `this.liked`
 
-# methods 속성
+</details>
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">methods 속성</summary>
+<br>
+
 Vue 에서 methods 속성은 반응형 데이터인 data를 사용해 특정 동작을 수행하는 함수를 정의하는데 사용한다.
 methods에 정의된 함수는 UI의 이벤트(클릭, 입력 등)에 반응하여 데이터의 상태를 변경하거나 필요한 작업을 수행한다.
 
@@ -86,3 +102,63 @@ methods에 정의된 함수는 UI의 이벤트(클릭, 입력 등)에 반응하�
 기존 바닐라 자바스크립트나 jQuery의 경우 클릭시 dom을 수동으로 조작하고, 버튼 상태에 따라 새로운 HTML을 추가하거나 CSS를 수정해야 했다.  
 반면 Vue는 methods 속성에서 데이터를 변경하는 것만으로 Vue의 반응형 시슽메이 DOM을 자동으로 조작해주기 때문에 코드의 가독성과 유지보수가 크게 향상된다.
 **핵심적으로 Vue에서는 데이터와 동작을 분리하여, 필요한 동작은 methods에 정의하고, UI는 데이터에 따라 자동으로 업데이트된다고 이해하면 좋다**
+
+</details>
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-on 디렉티브</summary>
+<br>
+
+js에서는 이벤트 리스너에 함수 등록을 onclick이라는 속성에 등록한다.  
+vue에서는 v-on 디렉티브를 활용한다.  
+`v-on:이벤트명="함수명"` 형태로 특정 이벤트에 통해 함수를 바인딩한다.  
+아래 예제는 click이벤트에 onCLickButton을 `v-on:click="onClickButton"` 형태로 바인딩하는 예제 코드이다.  
+
+- ### 예제코드
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>좋아요</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <button v-on:click="onClickButton">Like</button> <!-- v-on 디렉티브 이벤트 바인딩 -->
+    </div>
+  </body>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data: {
+        liked: false,
+      },
+      methods: {
+        onClickButton() {
+          console.log(this.liked)
+          this.liked = true;
+          console.log(this.liked)
+        }
+      }
+    });
+  </script>
+  </html>
+  ```
+
+</details>
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
+<br>
+
+- ### 예제코드
+
+  ```html
+  ```
+
+- ### 예제코드
+  ```js
+  ```
+
+</details>
