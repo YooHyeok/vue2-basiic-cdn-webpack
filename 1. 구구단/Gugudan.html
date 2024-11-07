@@ -7,8 +7,28 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div>{{ first }}곱하기 {{ second }} 는?</div>
+    <form>
+      <input type="number" v-model="value">
+      <button>입력</button>
+      <div>{{ value }}</div>
+    </form>
+    <div v-bind:id="result"></div>
+  </div>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data: {
+        /* 구구단 예제 템플릿 상 값이 변경되는 부분 4곳 */
+        first: Math.ceil(Math.random() * 9),
+        second: Math.ceil(Math.random() * 9),
+        value: '',
+        result: '',
+      },
+      methods: {
+      }
+    })
+  </script>
 </body>
 </html>
-
-<!-- feat: `Gugudan.html` - 구구단 예제 html파일 구성 및 CDN script 추가 -->
