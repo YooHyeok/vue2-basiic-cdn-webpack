@@ -149,8 +149,10 @@ vue에서는 v-on 디렉티브를 활용한다.
 
 </details>
 <details>
-<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-if 디렉티브</summary>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-if 디렉티브 (v-else-if/v-else)</summary>
 <br>
+
+# `v-if`
 js에서는 조건부 렌더링을 dom 객체를 직접 탐색하여 css 속성을 부여하여 제어한다.  
 react에서는 3항연산자나 && 혹은 || 조건으로 데이터 혹은 JSX 태그를 직접 제어한다.  
 vue 에서는 v-if 디렉티브 속성을 data 변수와 함께 부여하여 조건부 렌더링을 적용한다.
@@ -188,6 +190,37 @@ vue 에서는 v-if 디렉티브 속성을 data 변수와 함께 부여하여 조
     });
   </script>
   </html>
+  ```
+
+# `v-else ~ v-else-if`
+
+ - v-else-if : v-if조건에 부합하지 않으면서 새로운 조건을 지정한다.  
+ - v-else : 모든 조건에 부합하지 않는 경우에 해당한다.  
+- ### 예제코드
+
+  ```html
+
+  <body>
+    <div id="root">
+      <div v-if="true">if</div>
+      <div v-else-if="!true">else-if</div>
+      <div v-else>else</div>
+    </div>
+  </body>
+
+위와같이 v-if를 포함한 조건부 렌더링 디렉티브는 연속된 형제노드로 사용해야만 제대로 작동한다.
+만약 조건부 렌더링 디렉티브 사이에 형제 노드로 일반 태그를 선언한다면, v-if와 v-else-if(혹은 v-else)를 연결하지 못해 조건부 렌더링이 적용되지 않고 일반 태그만 출력된다.
+- ### 예제코드
+
+  ```html
+
+  <body>
+    <div id="root">
+      <div v-if="true">if</div>
+      <div>NaN</div> <!-- 해당 영역만 출력됨. -->
+      <div v-else>else</div>
+    </div>
+  </body>
   ```
 
 </details>
