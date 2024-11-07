@@ -9,6 +9,7 @@
 <body>
   <div id="root">
     <div v-if="liked">좋아요 눌렀음</div>
+    <div>깍두기</div> <!-- 조건부 렌더링 버그 테스트 -->
     <button v-else v-on:click="onClickButton">Like</button>
   </div>
 </body>
