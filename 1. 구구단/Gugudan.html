@@ -9,12 +9,11 @@
 <body>
   <div id="root">
     <div>{{ first }}곱하기 {{ second }} 는?</div>
-    <form>
+    <form v-on:submit="onSubmitForm">
       <input type="number" v-model="value">
       <button>입력</button>
-      <div>{{ value }}</div>
     </form>
-    <div v-bind:id="result"></div>
+    <div id="result">{{result}}</div>
   </div>
   <script>
     const app = new Vue({
@@ -27,6 +26,18 @@
         result: '',
       },
       methods: {
+        onSubmitForm(e) {
+          e.preventDefault();
+          console.log(this.first * this.second)
+          if (this.first * this.second === parseInt(this.value)) {
+            this.result = '정답'
+            this.first = Math.ceil(Math.random() * 9)
+            this.second = Math.ceil(Math.random() * 9)
+            this.value = '';
+            return;
+          }
+          this.result = '땡'
+        }
       }
     })
   </script>
