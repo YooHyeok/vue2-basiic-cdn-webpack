@@ -291,6 +291,141 @@ Vue에서 기본 DOM 요소에 직접 액세스 해야하는 경우 ref 속성�
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">컴포넌트와 props</summary>
+<br>
+
+## Component
+뷰 인스턴스에서 선언한 특정 레이아웃 영역을 하나의 템플릿 코드로 묶어, 관리한다.  
+전역 컴포넌트 문법으로는 `Vue.component({'컴포넌트명', ...훅, ...속성})` 문법을 통해 관리한다.  
+(CLI와 같은 WebPack 방식에서는 .vue 확장자 파일로 지역컴포넌트 형태로 관리한다. ; CDN에서도 지역컴포넌트 가능.)
+
+- ### 예제코드
+  ```js
+  Vue.component(
+    'wordRelay'/* PascalCase (Kebab Case 가능) */,
+    {
+      template: `
+      <div>
+        <div>{{ word }}</div>
+      </div>
+      `,
+      data() {
+        return {
+          word: '유혁스쿨',
+        }
+      },
+    }
+  )
+  ```
+위 코드에서 template 속성에 선언한 영역을 적용하기 위해 등록한 컴포넌트명과 일치하는 이름의 태그를 선언한다.
+(파스칼케이스, 케밥케이스 모두 사용 가능하다.)
+- ### 예제코드
+  ```html
+  <div id="root">
+    <word-relay></word-relay>
+    <word-relay></word-relay>
+    <word-relay></word-relay>
+  </div>
+  ```
+
+- ### 전체코드
+  ```html
+  <body>
+    <div id="root">
+      <word-relay></word-relay>
+      <word-relay></word-relay>
+      <word-relay></word-relay>
+    </div>
+    <script>
+      Vue.component(
+        'wordRelay'/* PascalCase */,
+        {
+          template: `
+          <div>
+            <div>{{ word }}</div>
+          </div>
+          `,
+          data() {
+            return {
+              word: '유혁스쿨',
+            }
+          },
+        }
+      )
+    </script>
+    <script>
+      const app = new Vue({
+        el: '#root',
+      })
+    </script>
+  </body>
+  ```
+
+## Props
+자식 컴포넌트에 데이터를 전달하는 Property(Attribute)이다.  
+Dom 엘리먼트 태그에 속성을 기입하는것과 같이 컴포넌트 태그에 `prop명="값 혹은 변수"` 형태의 문법으로 사용한다.  
+Vue에서는 props속성 이름의 형태를 기본적으로 케밥케이스를 사용한다.  
+
+- ### 예제코드
+  ```html
+  <word-relay init-word="유혁스쿨"><!-- props (kebab case) --></word-relay>
+  ```
+
+컴포넌트에서는 props 속성을 통해 받는다.  
+기본적으로는 배열 형태로 props명을 작성하는데, 케밥케이스, 파스칼케이스 모두 가능하다.  
+(타입과 기본값, 필수여부를 설정하는 객체 형태의 문법도 있으며, 객체 형태 문법은 Document를 참조하자.)
+- ### 예제코드
+  ```js
+  Vue.component(
+        'wordRelay',
+        {
+          template: `<!-- 생략 -->`,
+          props: ['inittWord'],
+          data() {
+            return {
+              word: this.initWord,
+            }
+          },
+        }
+      )
+  ```
+
+- ### 전체 코드
+  ```html
+  <body>
+    <div id="root">
+      <word-relay init-word="유혁스쿨"></word-relay>
+      <word-relay init-word="초밥"></word-relay>
+      <word-relay init-word="바보"></word-relay>
+    </div>
+    <script>
+      Vue.component(
+        'wordRelay',
+        {
+          template: `
+          <div>
+            <div>{{ word }}</div>
+          </div>
+          `,
+          props: ['inittWord'],
+          data() {
+            return {
+              word: this.initWord,
+            }
+          },
+        }
+      )
+    </script>
+    <script>
+      const app = new Vue({
+        el: '#root',
+      })
+    </script>
+  </body>
+  ```
+
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
