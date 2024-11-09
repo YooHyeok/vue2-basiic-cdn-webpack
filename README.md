@@ -224,3 +224,53 @@ vue 에서는 v-if 디렉티브 속성을 data 변수와 함께 부여하여 조
   ```
 
 </details>
+
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">보간법(Mustache 구분)</summary>
+<br>
+
+보간법이란?  
+템플릿 영역에서 태그 사이에 텍스트 노드를 data 변수 등으로 할당하는 문법이다.  
+react를 예로 들면 일반적인 단일 중괄호 표현식을 사용하며 이를 보간법이라고 한다.
+
+Mustache란?  
+vue에서 사용하는 보간법 방식으로 `{{ 변수 혹은 값 }}` 과 같이 이중 중괄호 형태로 데이터를 바인딩시킨다.  
+
+- ### 예제코드
+
+  ```html
+  <body>
+    <div id="root">
+      <div>{{ first }} + {{ second }}</div>
+    </div>
+    <script>
+      const app = new Vue({
+        el: '#root',
+        data: {
+          /* 구구단 예제 템플릿 상 값이 변경되는 부분 4곳 */
+          first: Math.ceil(Math.random() * 9),
+          second: Math.ceil(Math.random() * 9),
+        },
+        
+      })
+    </script>
+  </body>
+  ```
+  위의 예제에서는 랜덤값이 보간법에 의해 할당되어 실제 렌더링시 브라우저에 값 + 값 형태로 출력된다.
+
+
+</details>
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
+<br>
+
+- ### 예제코드
+
+  ```html
+  ```
+
+- ### 예제코드
+  ```js
+  ```
+
+</details>
