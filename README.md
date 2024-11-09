@@ -261,6 +261,36 @@ vue에서 사용하는 보간법 방식으로 `{{ 변수 혹은 값 }}` 과 같�
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">템플릿 참조 (ref / $refs)</summary>
+<br>
+
+Vue에서 기본 DOM 요소에 직접 액세스 해야하는 경우 ref 속성을 사용한다.  
+- ### 예제코드
+
+  ```html
+  <input ref="input">
+  ```
+
+위 예제코드와 같이 일반 DOM요소에서 사용되는 경우는 해당 요소가 되지만, 자식 컴포넌트에서 사용하는 경우 참조는 해당 컴포넌트 인스턴스가 된다.
+- ### 예제코드
+
+  ```html
+  <Child ref="child" />
+  ```
+
+위와같이 DOM요소에 ref속성을 적용한 뒤 접근할때에는 `this.$refs.ref명` 문법으로 접근한다.  
+
+
+- ### 예제코드
+  ```js
+  onSubmitForm(e) {
+    console.log(this.$refs.input)
+    console.log(this.$refs.child)
+  }
+  ```
+
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
