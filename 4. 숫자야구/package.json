@@ -13,6 +13,7 @@
     "vue": "^3.5.12"
   },
   "devDependencies": {
+    "vue-loader": "^17.4.2",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   }
