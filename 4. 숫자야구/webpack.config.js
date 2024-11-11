@@ -1,3 +1,6 @@
+/* 절대경로 추가 */
+const path = require('path')
+
 /* 모듈 내보내기 - 웹팩킹에 대한 webpack 설정 */
 module.exports = {
   /**
@@ -5,7 +8,8 @@ module.exports = {
    * 키(프로퍼티)로 접근한다.
    */
   entry: {
-    app: './main.js'
+    // app: './main.js'
+    app: path.join(__dirname, 'main.js') // 절대경로 생성 `/4. 숫자야구/main.js`
   },
   /**
    * webpack의 핵심이다.
@@ -13,12 +17,12 @@ module.exports = {
    */
   module: {
     rules: [{
-
     }]
   },
   plugins: [],
   output: {
     filename: '[name].js', /* [name]: entry.app을 참조한다. (app.js 명시적 할당 가능) */
-    path: './dist', /* entry.app으로 등록한 하나의 script 파일이 저장될 디렉토리 경로 (app.js가 저장된다.) */
+    // path: './dist', /* entry.app으로 등록한 하나의 script 파일이 저장될 디렉토리 경로 (app.js가 저장된다.) */
+    path: path.join(__dirname, 'dist'), /* 절대경로 => `/4. 숫자야구/dist` [arg1]: 현재 파일의 디렉토리 경로, [arg2]: 합칠 경로 */
   },
 }
