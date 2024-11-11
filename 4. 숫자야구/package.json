@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "_comment": "[webpack 빌드 script 명령 등록] - `npm run build` → webpack.config.js에 등록한 path경로에 entry에 등록한 파일이 웹 패킹되어 생성된다",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
