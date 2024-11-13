@@ -1,3 +1,4 @@
+const { VueLoaderPlugin } = require('vue-loader');
 /* 절대경로 추가 */
 const path = require('path')
 
@@ -17,9 +18,13 @@ module.exports = {
    */
   module: {
     rules: [{
+      test: /\.vue$/,
+      loader: 'vue-loader'
     }]
   },
-  plugins: [],
+  plugins: [
+    new VueLoaderPlugin()
+  ],
   output: {
     filename: '[name].js', /* [name]: entry.app을 참조한다. (app.js 명시적 할당 가능) */
     // path: './dist', /* entry.app으로 등록한 하나의 script 파일이 저장될 디렉토리 경로 (app.js가 저장된다.) */
