@@ -1,4 +1,4 @@
-# vue2-basiic-cdn-zerocho
+# vue2-basic-cdn-zerocho
 
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">CDN</summary>
@@ -16,8 +16,6 @@ Webpack Babel이 아닌 순수 HTML로 Vue를 구현한다.
 </body>
 </html>
 ```
-
-
 </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">Vue 인스턴스 초기화 및 root 영역 할당</summary>
@@ -423,6 +421,125 @@ Vue에서는 props속성 이름의 형태를 기본적으로 케밥케이스를 
     </script>
   </body>
   ```
+
+</details>
+<hr>
+<details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">WEBPACK</summary>
+<br>
+
+## 웹 패킹이란?  
+현재 프로젝트에서 사용되는 모든 js를 하나의 파일로 압축하여 합치는 작업이다.  
+
+- 프로젝트 초기화
+	package.json가 생성되며, 해당 파일을 통해 라이브러리(디펜던시)와 빌드에 필요한 script 명령등을 정의한다.
+	
+	```bash
+	npm init
+	```
+	```bash
+	package name: {프로젝트명}
+	```
+
+- vue 디펜던시 설치
+	```bash
+	npm install vue
+	```
+- webpack, webpack-cli 디펜던시 설치(개발 모드)
+	```bash
+	npm i webpack webpack-cli -D
+	```
+	
+- webpack 환경설정  
+
+  웹 패킹을 위해서는 webpack 설정이 필요하다.  
+
+  - **entry** : 모든 script를 하나로 합칠때 대표가되는 파일을 등록한다.
+  - **module** : webpack의 핵심으로, rules 배열에 객체 형태로 어떻게 합칠지, 처리할지를 설정한다.
+  - **plugins** : ?
+  - **output** : 웹 패킹으로 변환될 파일(entry에 등록된 파일)을 참조하고, 웹패킹이 완료된 파일을 저장할 디렉토리를 설정한다.
+    - filename
+    - path
+
+  - `webpack.config.js`
+      ```js
+      /* 절대경로 추가 */
+      const path = require('path')
+      module.exports = {
+        entry: {
+          // app: './main.js'
+          app: path.join(__dirname, 'main.js') // 절대경로 생성 `/4. 숫자야구/main.js`
+        },
+        module: {
+          rules: [{}]
+        },
+        plugins: [],
+        output: {
+          filename: '[name].js', /* [name]: entry.app을 참조한다. (app.js 명시적 할당 가능) */
+          // path: './dist', /* entry.app으로 등록한 하나의 script 파일이 저장될 디렉토리 경로 (app.js가 저장된다.)*/
+          path: path.join(__dirname, 'dist'), /* 절대경로 => `/4. 숫자야구/dist` [arg1]: 현재 파일의 디렉토리 경로, [arg2]: 합칠 경로 */
+        },
+      }
+      ```
+	
+## vue-loader
+webpack의 패킹 대상은 JS 파일이다.  
+JS 파일이 아닌 .vue 확장자에 대해 webpack이 패킹하기 위해서는 vue-loader가 필요하다.  
+
+- `vue-loader 디펜던시 설치 (개발 모드)`  
+    ```bash
+    npm i vue-loader -D
+    ```
+	  
+디펜던시 설치 후 webpack에서 vue-loader를 설정한다.  
+- `webpack.config.js`
+    ```js
+    module.exports = {
+      entry: {/* 생략 */},
+      /**
+      * webpack의 핵심이다.
+      * rulse 배열 속성에 어떻게 합칠지, 처리할지를 정한다.
+      */
+      module: {
+        rules: [{
+          test: /\.vue$/,
+          loader: 'vue-loader'
+        }]
+      },
+      plugins: [],
+      output: {/* 생략 */},
+    }
+    ```
+디펜던시 설치 후 webpack에서 vue-loader를 설정한다.  
+
+## vue template compiler
+
+웹패킹을 할때 .vue 확장자 파일이 컴파일되는데 이때 전용 컴파일러가 필요하다.  
+해당 컴파일러는 vue와 버전이 일치해야한다.  
+
+  ```bash
+  npm i vue-template-compiler
+  ```
+
+## 전역 Vue컴포넌트 Vue인스턴스 등록
+아래 예시코드를 보며 vue2와 vue3 방식이 다르다는걸 유념해서 적용한다.  
+- `main.js`
+    ```js
+    import Vue from 'vue'
+    import { createApp } from 'vue';
+    import NumberBaseball from './NumberBaseball'
+
+    // new Vue(NumberBaseball).$mount('#root'); // vue2 마운트
+    createApp(NumberBaseball).mount('#root'); // vue3 마운트
+    ```
+## build 진행
+  ```bash
+  npm run build
+  ```
+  위 명령어를 통해 webpack.config.js에 설정한 설정내역들을 통해 빌드를 진행하게 된다.  
+  필자의 경우 output을 dist 디렉토리로 잡아두었고 entry 프로퍼티를 app으로 했기 때문에  
+  dist 디렉토리 하위에 app.js 파일이 생성된다.  
+  해당 파일 내의 소스코드는 main.js와 .vue확장자 파일 등을 포함하고 있다.
 
 </details>
 <details>
