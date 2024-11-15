@@ -103,25 +103,17 @@ methods에 정의된 함수는 UI의 이벤트(클릭, 입력 등)에 반응하�
 
 </details>
 <details>
-<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-on 디렉티브</summary>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">이벤트와 v-on 디렉티브</summary>
 <br>
 
 js에서는 이벤트 리스너에 함수 등록을 onclick이라는 속성에 등록한다.  
 vue에서는 v-on 디렉티브를 활용한다.  
-`v-on:이벤트명="함수명"` 형태로 특정 이벤트에 통해 함수를 바인딩한다.  
-아래 예제는 click이벤트에 onCLickButton을 `v-on:click="onClickButton"` 형태로 바인딩하는 예제 코드이다.  
+`v-on:이벤트명="실행코드"` 형태로 특정 이벤트에 통해 실행할 코드를 바인딩한다.  
+아래 예제는 click이벤트에 onCLickButton 메소드를 `v-on:click="onClickButton"` 형태로 바인딩하는 예제 코드이다.  
 
 - ### 예제코드
 
   ```html
-  <!DOCTYPE html>
-  <html lang="ko">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>좋아요</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  </head>
   <body>
     <div id="root">
       <button v-on:click="onClickButton">Like</button> <!-- v-on 디렉티브 이벤트 바인딩 -->
@@ -145,6 +137,60 @@ vue에서는 v-on 디렉티브를 활용한다.
   </html>
   ```
 
+## 축약형
+`v-on:이벤트명="실행코드"` 디렉티브의 축약형으로 `@이벤트명="실행코드"`와 같이 사용할 수 있다.  
+
+- ### 예제코드
+  ```html
+  <body>
+    <div id="root">
+      <button @click="onClickButton">Like</button> <!-- v-on 디렉티브 축약형 @ 적용 -->
+    </div>
+  </body>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      data: {
+        liked: false,
+      },
+      methods: {
+        onClickButton() {
+          console.log(this.liked)
+          this.liked = true;
+          console.log(this.liked)
+        }
+      }
+    });
+  </script>
+  </html>
+  ```
+## 이벤트 수식어
+일반적인 js 방식에서 이벤트 핸들러 함수 내부에 `event.preventDefault();` 또는 `event.stopPropagation();` 을
+호출한다.
+vue에서는 이러한 DOM 이벤트 세부사항을 핸들러 내에서 처리하지 않고, 핸들러에서는 데이터 로직만 처리할 수 있도록 v-on 디렉티브에 **이벤트 수식어**를 제공한다.  
+
+`v-on.이벤트명.수식어` 형태로 사용한다.  
+ - ex) `v-on.click.prevent`
+   -  e.preventDefault();
+- 수식어 종류
+  - .stop
+  - .prevent
+  - .capture
+  - .self
+  - .once
+  - .passive
+
+### 이벤트 수식어 체이닝
+이벤트 수식어는 체이닝이 가능하다.  
+`v-on.이벤트명.수식어1.수식어2` 형태로 사용하며, 체이닝 순서로 수식어를 작동시킨다.  
+ - ex 1) `v-on.click.prevent.stop`
+   1. e.preventDefault();
+   2. e.stopPropagation();
+
+ - ex 2) `v-on.click.prevent.stop`
+   1. e.stopPropagation();
+   2. e.preventDefault();
+
 </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">v-if 디렉티브 (v-else-if/v-else)</summary>
@@ -158,14 +204,6 @@ vue 에서는 v-if 디렉티브 속성을 data 변수와 함께 부여하여 조
 - ### 예제코드
 
   ```html
-  <!DOCTYPE html>
-  <html lang="ko">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>좋아요</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  </head>
   <body>
     <div id="root">
       <div v-if="liked">좋아요 눌렀음</div> <!-- v-if 조건부 랜더링 적용 -->
