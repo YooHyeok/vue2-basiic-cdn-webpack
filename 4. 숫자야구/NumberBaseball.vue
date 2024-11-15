@@ -2,8 +2,9 @@
   <div>
 
     <h1>{{ result }}</h1>
-    <form v-on:submit="onSubmitForm">
-      <input maxlength="4" type="text" v-model="value" ref="answer">
+    <!-- <form v-on:submit="onSubmitForm"> -->
+    <form @submit.prevent="onSubmitForm">
+      <input minlength="4" maxlength="4" type="text" v-model="value" ref="answer">
       <button>입력!</button>
     </form>
     <div>시도 : {{ tries.length }}</div>
@@ -35,7 +36,7 @@
     },
     methods: {
       onSubmitForm(e) {
-        e.preventDefault();
+        // e.preventDefault();
         if (this.value === this.answer.join('')) { // 정답
           this.tries.push({try:this.value, result: '홈런'})
           this.result = '홈런';
