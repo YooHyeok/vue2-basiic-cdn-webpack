@@ -714,6 +714,21 @@ patch는 일종의 "떔빵"을 의미하며, in-place는 현재 지점에서 를
   
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-bind 디렉티브</summary>
+<br>
+
+## v-bind
+vue에서 html 엘리먼트의 특정 속성에 state 변수 혹은 문자, 숫자, 불리언 등의 값을 바인딩(할당) 할때 사용한다.  
+`v-bind:class="값 혹은 변수"`
+
+- ### 예제코드
+  ```html
+  <div id="screen" v-bind:class="'cls'"></div> <!-- class="cls" -->
+  <button v-bind:disabled="true">비활성화됨</button> <!-- disabled -->
+  ```
+
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
