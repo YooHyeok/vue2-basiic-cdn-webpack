@@ -22,10 +22,25 @@ module.exports = {
    * rulse 배열 속성에 어떻게 합칠지, 처리할지를 정한다.
    */
   module: {
-    rules: [{
-      test: /\.vue$/,
-      loader: 'vue-loader'
-    }]
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+            }
+          }
+        ]
+      },
+    ]
   },
   plugins: [
     new VueLoaderPlugin()
