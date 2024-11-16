@@ -613,6 +613,79 @@ js의 for loop 종류의 하나인 for ...in 문법과 유사하다.
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-for 2. in-place patch와 key 속성</summary>
+<br>
+
+### in-place patch전략과 key속성
+Vue는 메모리 절약을 위해 DOM 최적화를 통해 DOM을 재사용한다.  
+이 과정에서 in-place patch 전략이라는 것을 사용한다.  
+patch는 일종의 "떔빵"을 의미하며, in-place는 현재 지점에서 를 의미한다.  
+현재 지점에서 땜빵 즉, 현재 DOM에서 변경될 부분만 땜빵해서 처리하고 DOM을 재사용 한다는 의미이다.  
+
+예를들어 아래와 같은 코드가 있다고 가정해보자.  
+- ### 예제코드
+  ```html
+  <body>
+    <div id="app">
+      <ul>
+        <li v-for="item in list" :key="item">
+          {{ item }} : <input type="number">
+        </li>
+      </ul>
+      <button @click="shift">Shift!</button>
+    </div>
+
+    <script>
+      // 부모 컴포넌트 정의
+      new Vue({
+        el: '#app',
+        data:{
+          list: ["apple", "banana", "orange"]
+        },
+        methods: {
+          shift() {
+            this.list.push(this.list.shift())
+          }
+        }
+      });
+    </script>
+  </body>
+  ```
+   위 코드에서 input의 값을 순차적으로 1 2 3으로 입력한다.
+   - apple: [1]
+   - banana: [2]
+   - orange: [3]
+  위와 같은 상태에서 shift 버튼을 클릭할경우 아래와 같이 결과가 변경된다.
+  [기대값]
+   - banana: [2]
+   - orange: [3]
+   - apple: [1]
+  [실제값]
+   - banana: [1]
+   - orange: [2]
+   - apple: [3]
+  이는 앞서 설명한것과 같이 in-place patch로 처리되었기 때문에 변경되는 부분인 {{item}}만 patch된다.  
+
+  위와 같이 반복되는 내용을 하나로 관리해야 할 필요가 있고 이때 사용되는것이 바로 key 속성이다.  
+  key 속성에는 요소를 구별할 수 있는 unique한 내용을 사용한다.
+  
+  ## index 바인딩 이슈
+  만약 index를 사용할 경우, 배열 요소 중 하나가 삭제 된다면 첫번째 요소부터 마지막 요소까지 index를 재생성해야 하기 때문에 성능/버그 이슈가 발생한다.  
+  단순히 하나의 데이터가 아닌 복잡한 데이터로 얽혀있는 경우가 있을 수 있고 이러한 상황에서 배열에 데이터를 추가할 경우 변경 감지에 대한 렌더링 시점 오류가 발생하여 순서가 꼬이는 경우도 발생한다.  
+  예를들어, 배열의 특정 요소 객체 내부의 값이 변경하는데 이때 변경하는 원리가 해당 배열에 직접 접근하여 값을 변경하는 것이 아니라, 해당 배열을 복사하여 값을 변경한 뒤 배열을 통째로 다시 변경하는 경우이다.  
+
+  vue는 배열 순서를 변경하거나 항목을 추가/삭제하는 순간 기존 DOM 요소를 재활용 하려고 한다.  
+  이때 index가 변경되기 전 후의 변경시점에서 DOM과 데이터의 매핑이 꼬일 수 있게 된다.  
+  즉, 동기화 시점 오류이다.  
+  특정 시점에서 배열에 객체를 추가하고 정렬한 뒤, 해당 객체의 값을 변경할때 dom에 대한 연결이 key로 지정한 index로 연결되는데,
+  배열의 값이 변경되고 v-for에서 index가 새롭게 생성되고, key에 매핑이 되는데, 매핑되기 전 찰나의 순간에 특정 index의 데이터를 변경할 경우 이전 index에 대한 데이터와 현재 index에 대한 데이터가 동시에 수정이 되는 현상이 발생할 수 있다.  
+  예를들어 1, 2, 3, 4, 5 인덱스가 있고 3번과 4번 사이에 데이터를 추가한다면, 4번이 5번으로 밀려나고 새로운 4번 데이터가 추가된다.
+  이렇게 데이터를 추가하면서, index가 재생성되며 index가 key에 매핑되게 되는데, `index가 key에 매핑 되기 전 찰나의 순간`에 4번 데이터의 속성값을 변경한다면, 5번으로 밀려날 4번 index 데이터와 새롭게 추가된 new 4번 index 데이터의 속성 값이 함께 변경되는 현상이 발생하게 된다.  
+  
+
+  
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
