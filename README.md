@@ -729,6 +729,48 @@ vue에서 html 엘리먼트의 특정 속성에 state 변수 혹은 문자, 숫�
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">vue style 모듈 & WEBPACK 옵션</summary>
+<br>
+
+webpack 방식에서 vue 프로젝트를 build할때 .vue확장자에 대한 로드를 하기 위해서는 webpack.config.js의 module 옵션의 rules 배열에 .vue확장자에 대한 로더 모듈을 등록해야했다.  
+vue의 style태그를 build할때 또한 css와 style 관련 로더 모듈이 필요하고, webpack.config.js에 등록해줘야 한다.
+
+- 필요한 모듈
+  - vue-style-loader
+  - css-loader
+
+- npm 모듈 추가 (개발용)
+  ```bash
+    npm i vue-style-loader css-loader -D
+  ```
+
+- `webpack.config.js` 로더 모듈 설정
+    ```js
+    module.exports = {
+      /* 생략 */
+      module: {
+        rules: [
+          /* 생략 */
+         {
+          test: /\.css$/,
+          use: [
+            'vue-style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                esModule: false,
+              }
+            }
+          ]
+        },
+        ]
+      },
+      /* 생략 */
+    }
+    ```
+
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
