@@ -581,6 +581,38 @@ JS 파일이 아닌 .vue 확장자에 대해 webpack이 패킹하기 위해서�
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">v-for 1. 리스트 렌더링</summary>
+<br>
+
+## v-for 리스트 렌더링
+v-for 디렉티브를 사용하여 배을 기반 리스트 렌더링이 가능하다.  
+해당 디렉티브는 `item in items` 형태의 특별한 문법을 사용한다.  
+js의 for loop 종류의 하나인 for ...in 문법과 유사하다.  
+`v-for="요소 in 배열"` 혹은 `v-for="(요소, index) in 배열"` 형태로 사용한다.  
+
+- ### 예제코드
+  ```html
+  <template>
+    <div>
+      <ul>
+        <li v-for="(el, idx) in array" >{{ el }}</li>
+      </ul>
+    </div>
+  </template>
+  <script>
+    export default {
+      
+      data() {
+        return {
+          array: ["A", "B", "C", "D", "E"],
+        }
+      },
+    }
+  </script>
+  ```
+
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
