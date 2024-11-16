@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="screen">{{  }}</div> <!-- 클릭 영역 -->
+    <div id="screen" v-bind:class="state">{{ message }}</div> <!-- 클릭 영역 -->
     <div>
       <div>평균 시간: {{  }}</div>
       <button @click="onReset">리셋</button>
@@ -23,5 +23,20 @@
   }
 </script>
 <style>
-
+  #screen {
+        width: 300px;
+        height: 200px;
+        text-align: center;
+        user-select: none;
+    }
+    #screen.waiting {
+        background-color: aqua;
+    }
+    #screen.ready {
+        background-color: red;
+        color: white;
+    }
+    #screen.now {
+        background-color: greenyellow;
+    }
 </style>
