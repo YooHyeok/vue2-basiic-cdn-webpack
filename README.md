@@ -771,6 +771,50 @@ vue의 style태그를 build할때 또한 css와 style 관련 로더 모듈이 �
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">webpack-dev-server</summary>
+<br>
+
+웹팩 데브서버는 웹팩의 빌드 대상 파일이 변경되었을 때 매번 웹팩 명령어를 실행하지 않아도 코드만 변경하고 저장하면 웹팩으로 빌드한 후 브라우저를 새로고침 해준다.  
+매번 명령어를 치는 시간과 브라우저를 새로고침 하는 시간 뿐만 아니라 웹팩 빌드 시간 또한 줄여주기 때문에 웹팩 기반의 웹 애플리케이션 개발에 필수로 사용된다.
+
+- ### npm 모듈 설치
+
+  ```bash
+  npm install webpack-dev-server -D
+  ```
+
+- `webpack.config.js` devServer 설정
+    ```js
+    module.exports = {
+      /* 생략 */
+      devServer: {
+        devMiddleware: { publicPath: '/dist' },
+        static: { directory: path.resolve(__dirname) },
+        hot: true,
+        compress: true,
+        port: 9000
+      }
+    }
+    ```
+
+- `package.json` 실행 script 설정
+    ```json
+    {
+      /* 생략 */
+      "scripts": {
+        "dev": "webpack-dev-server --hot" 
+      },
+      /* 생략 */
+    }
+    ```
+
+- ### 실행 명령
+  ```bash
+  npn run dev
+  ```
+</details>
+
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
