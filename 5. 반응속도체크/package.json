@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "_comment": "[webpack 빌드 script 명령 등록] - `npm run build` → webpack.config.js에 등록한 path경로에 entry에 등록한 파일이 웹 패킹되어 생성된다",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "dev": "webpack-dev-server --hot"
   },
   "author": "",
   "license": "ISC",
