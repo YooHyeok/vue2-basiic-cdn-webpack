@@ -27,7 +27,6 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader'
       },
-      
       {
         test: /\.css$/,
         use: [
@@ -50,4 +49,11 @@ module.exports = {
     // path: './dist', /* entry.app으로 등록한 하나의 script 파일이 저장될 디렉토리 경로 (app.js가 저장된다.) */
     path: path.join(__dirname, 'dist'), /* 절대경로 => `/4. 숫자야구/dist` [arg1]: 현재 파일의 디렉토리 경로, [arg2]: 합칠 경로 */
   },
+  devServer: {
+    devMiddleware: { publicPath: '/dist' },
+    static: { directory: path.resolve(__dirname) },
+    hot: true,
+    compress: true,
+    port: 9000
+  }
 }
