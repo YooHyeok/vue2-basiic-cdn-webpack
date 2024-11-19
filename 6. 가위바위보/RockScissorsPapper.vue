@@ -17,6 +17,17 @@
     가위: '-136px',
     보: '-284px'
   }
+  const scores = {
+    가위: 1,
+    바위: 0,
+    보: -1
+  }
+  const computerChoice = (imgCoord) => {
+    return (
+      Object.entries(rspCoords) /* 객체를 2차원 배열로 변환 (property기준 row) */
+        .find(arr => arr[1] === imgCoord)[0]
+    );
+  }
   let interval = null;
   export default {
     data() {
@@ -51,7 +62,37 @@
     },
     methods: {
       onClickButton(choice) {
-        console.log(choice)
+        clearInterval(interval); // 손 정지
+        const myScore = scores[choice];
+        const cpuScore = scores[computerChoice(this.imgCoord)]
+        const diff = myScore - cpuScore;
+        try {
+          if(diff === 0) {
+            this.result = '비겼습니다.'
+            return 
+          }
+          if([-1, 2].includes(diff)) {
+            this.result = '이겼습니다.'
+            this.score += 1;
+            return 
+          }
+          this.result = '졌습니다.'
+          this.score -= 1;
+        } finally {
+          setTimeout(() => {
+            interval = setInterval(()=>{
+              if (this.imgCoord === rspCoords.바위) {
+                this.imgCoord = rspCoords.가위
+                return;
+              }
+              if (this.imgCoord === rspCoords.가위) {
+                this.imgCoord = rspCoords.보
+                return;
+              }
+              this.imgCoord = rspCoords.바위
+            }, 100)
+          }, 2000)
+        }
       }
     },
   }
