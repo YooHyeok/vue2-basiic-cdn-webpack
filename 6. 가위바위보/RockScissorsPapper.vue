@@ -23,10 +23,14 @@
     보: -1
   }
   const computerChoice = (imgCoord) => {
-    return (
-      Object.entries(rspCoords) /* 객체를 2차원 배열로 변환 (property기준 row) */
-        .find(arr => arr[1] === imgCoord)[0]
-    );
+    /* return (
+      Object.entries(rspCoords) // 객체를 2차원 배열로 변환 (property기준 row)
+      .find(arr => arr[1] === imgCoord)[0]
+      ); */
+      for (const key in rspCoords) {
+        if (rspCoords[key] === imgCoord) 
+          return key;
+      }
   }
   let interval = null;
   export default {
