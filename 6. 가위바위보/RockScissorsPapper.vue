@@ -42,17 +42,7 @@
       }
     },
     mounted() {
-      interval = setInterval(()=>{
-        if (this.imgCoord === rspCoords.바위) {
-          this.imgCoord = rspCoords.가위
-          return;
-        }
-        if (this.imgCoord === rspCoords.가위) {
-          this.imgCoord = rspCoords.보
-          return;
-        }
-        this.imgCoord = rspCoords.바위
-      }, 100)
+      this.changeHand()
     },
     beforeDestroy() {
       clearInterval(interval)
@@ -65,6 +55,19 @@
       }
     },
     methods: {
+      changeHand() {
+        interval = setInterval(()=>{
+          if (this.imgCoord === rspCoords.바위) {
+            this.imgCoord = rspCoords.가위
+            return;
+          }
+          if (this.imgCoord === rspCoords.가위) {
+            this.imgCoord = rspCoords.보
+            return;
+          }
+          this.imgCoord = rspCoords.바위
+        }, 100)
+      },
       onClickButton(choice) {
         clearInterval(interval); // 손 정지
         const myScore = scores[choice];
@@ -84,17 +87,7 @@
           this.score -= 1;
         } finally {
           setTimeout(() => {
-            interval = setInterval(()=>{
-              if (this.imgCoord === rspCoords.바위) {
-                this.imgCoord = rspCoords.가위
-                return;
-              }
-              if (this.imgCoord === rspCoords.가위) {
-                this.imgCoord = rspCoords.보
-                return;
-              }
-              this.imgCoord = rspCoords.바위
-            }, 100)
+            this.changeHand()
           }, 2000)
         }
       }
