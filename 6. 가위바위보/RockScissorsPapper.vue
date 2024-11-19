@@ -17,6 +17,7 @@
     가위: '-136px',
     보: '-284px'
   }
+  let interval = null;
   export default {
     data() {
       return {
@@ -24,6 +25,22 @@
         result: '',
         score: 0,
       }
+    },
+    mounted() {
+      interval = setInterval(()=>{
+        if (this.imgCoord === rspCoords.바위) {
+          this.imgCoord = rspCoords.가위
+          return;
+        }
+        if (this.imgCoord === rspCoords.가위) {
+          this.imgCoord = rspCoords.보
+          return;
+        }
+        this.imgCoord = rspCoords.바위
+      }, 100)
+    },
+    beforeDestroy() {
+      clearInterval(interval)
     },
     computed: {
       computedStyleObject () {
