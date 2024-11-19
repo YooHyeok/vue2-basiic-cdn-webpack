@@ -3,7 +3,8 @@
     <div id="screen" v-bind:class="state" @click="onClickScreen">{{ message }}</div> <!-- 클릭 영역 -->
     <template v-if="true">
       <!-- <div>평균 시간: {{ result.reduce((acc, cur) => acc + cur, 0) / result.length || 0 }} ms</div> -->
-      <div>평균 시간: {{ computedAverage }} ms</div>
+      <!-- <div>평균 시간: {{ computedAverage }} ms</div> --> <!-- 연산 computed 적용 -->
+      <div>평균 시간: {{ average }} ms</div> <!-- 연산 watched 적용 -->
       <button @click="onReset" :disabled="disabled">리셋</button>
     </template>
   </div>
