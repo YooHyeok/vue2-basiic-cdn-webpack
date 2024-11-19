@@ -812,6 +812,16 @@ vue의 style태그를 build할때 또한 css와 style 관련 로더 모듈이 �
   ```bash
   npn run dev
   ```
+- ### 메인 html  
+```html
+<div id="root"></div>
+<script src="./dist/app.js"></script>
+```
+`npm run build` 명령어를 통한 `webpack --watch` script와는 다르게 webpack-dev-server의 경우 dist/app.js 폴더가 생성되지 않는다.  
+그럼에도 불구하고 네트워크 탭을 확인해보면 localhost:포트/dist/app.js를 가져오게 된다.  
+output을 로컬에 직접적으로 저장하지 않고 서버 프로세스가 실행 중인 Node.js의 메모리 공간에 저장이 된다.  
+이때 중요한점은 메인 html 파일에서 /dist/app.js 경로의 script 파일을 참조해야만 한다.  
+(참조하지 않는다면 애초에 실행할 script가 없어지기 때문...)
 </details>
 
 <details>
