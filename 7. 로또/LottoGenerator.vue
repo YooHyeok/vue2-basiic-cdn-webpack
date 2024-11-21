@@ -24,7 +24,8 @@
     const winNumbers = shuffle.slice(0, 6).sort((previous, current) => previous - current);
     return [...winNumbers, bonusNumber]
   }
-  let timeouts = []
+  // let timeouts = [];
+  let interval = null;
   export default {
     components: {
       LottoBall
@@ -50,9 +51,10 @@
       }, 7000) */
     },
     beforeDestory() {
-      timeouts.forEach(timeout => {
+      /* timeouts.forEach(timeout => {
         clearTimeout(timeout)
-      })
+      }) */
+	  clearInterval(interval)
     },
     computed: {
       
@@ -69,7 +71,7 @@
         this.showBalls();
       },
       showBalls() {
-        for (let i = 0; i < this.winNumbers.length -1; i++) {
+        /* for (let i = 0; i < this.winNumbers.length -1; i++) {
           setTimeout(() => { // i = 0: 1초 후 [0] 추가 / 1: 2초후 [1] 추가
             this.winBalls.push({number: this.winNumbers[i]});
           }, (i + 1) * 1000);
@@ -77,7 +79,16 @@
         setTimeout(() => {
           this.bonus = this.winNumbers[6];
           this.redo = true;
-        }, 7000)
+        }, 7000) */
+		interval = setInterval(() => {
+        if (this.winBalls.length > 5) {
+          this.bonus = this.winNumbers.pop()
+          this.redo = true
+          clearInterval(interval)
+          return;
+        }
+        this.winBalls.push({number: this.winNumbers.pop()})
+      }, 1000)
       }
     },
   }
