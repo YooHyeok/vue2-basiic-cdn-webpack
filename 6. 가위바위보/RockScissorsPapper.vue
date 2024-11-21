@@ -57,7 +57,18 @@
     methods: {
       changeHand() {
         interval = setInterval(()=>{
-          if (this.imgCoord === rspCoords.바위) {
+          switch (this.imgCoord) {
+            case rspCoords.바위: 
+              this.imgCoord = rspCoords.가위
+              break;
+            case rspCoords.가위: 
+              this.imgCoord = rspCoords.보
+              break;
+            default: 
+              this.imgCoord = rspCoords.바위
+              break;
+          }
+          /* if (this.imgCoord === rspCoords.바위) {
             this.imgCoord = rspCoords.가위
             return;
           }
@@ -65,7 +76,7 @@
             this.imgCoord = rspCoords.보
             return;
           }
-          this.imgCoord = rspCoords.바위
+          this.imgCoord = rspCoords.바위 */
         }, 100)
       },
       onClickButton(choice) {
