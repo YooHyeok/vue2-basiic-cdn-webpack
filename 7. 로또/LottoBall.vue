@@ -11,12 +11,21 @@ export default {
   },
   data() {
     let background;
-    return {
-      background,
+    if (this.number <= 10) {
+      background = 'red'
+    } else if (this.number <= 20) {
+      background = 'orange'
+    } else if (this.number <= 30) {
+      background = 'yellow'
+    } else if (this.number <= 40) {
+      background = 'blue'
+    } else  {
+      background = 'green'
+    } return {
+      background
     }
   },
   created() {
-    console.log("ㄴㄴㄴ")
   }
 }
 </script>
