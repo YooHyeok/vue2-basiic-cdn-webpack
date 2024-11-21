@@ -5,8 +5,8 @@
       <LottoBall v-for="(ball, idx) in winBalls" :number="ball.number" :key="idx"/>
     </div>
     <div>보너스</div>
-    <LottoBall v-if="bonus" :number="3"/>
-    <button v-if="redo">한 번 더!</button>
+    <LottoBall v-if="bonus" :number="bonus"/>
+    <button v-if="redo" @click="onClickRedo">한 번 더!</button>
   </div>
 </template>
 <script>
@@ -24,6 +24,7 @@
     const winNumbers = shuffle.slice(0, 6).sort((previous, current) => previous - current);
     return [...winNumbers, bonusNumber]
   }
+  let timeouts = []
   export default {
     components: {
       LottoBall
@@ -37,10 +38,20 @@
       }
     },
     mounted() {
-      console.log(this.winNumbers)
+      for (let i = 0; i < this.winNumbers.length -1; i++) {
+        timeouts[i] = setTimeout(() => { // i = 0: 1초 후 [0] 추가 / 1: 2초후 [1] 추가
+          this.winBalls.push({number: this.winNumbers[i]});
+        }, (i + 1) * 1000);
+      }
+      timeouts[6] = setTimeout(() => {
+        this.bonus = this.winNumbers[6];
+        this.redo = true;
+      }, 7000)
     },
     beforeDestory() {
-
+      timeouts.forEach(timeout => {
+        clearTimeout(timeout)
+      })
     },
     computed: {
       
@@ -49,7 +60,7 @@
 
     },
     methods: {
-      
+	
     },
   }
 </script>
