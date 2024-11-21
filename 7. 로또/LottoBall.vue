@@ -10,19 +10,29 @@ export default {
     }
   },
   data() {
-    let background;
-    if (this.number <= 10) {
-      background = 'red'
-    } else if (this.number <= 20) {
-      background = 'orange'
-    } else if (this.number <= 30) {
-      background = 'yellow'
-    } else if (this.number <= 40) {
-      background = 'blue'
-    } else  {
+    try {
+        if (this.number <= 10) {
+          background = 'red'
+          return;
+      }
+      if (this.number <= 20) {
+        background = 'orange'
+        return;
+      }
+      if (this.number <= 30) {
+        background = 'yellow'
+        return;
+      }
+      if (this.number <= 40) {
+        background = 'blue'
+        return;
+      }
       background = 'green'
-    } return {
-      background
+    }
+    finally {
+      return {
+        background,
+      }
     }
   },
   created() {
