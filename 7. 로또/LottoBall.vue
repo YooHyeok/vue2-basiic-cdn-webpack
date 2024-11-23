@@ -1,5 +1,5 @@
 <template>
-  <div class="ball" :style="{ background }">{{ number }}</div>
+  <div class="ball" :style="styleObject">{{ number }}</div>
 </template>
 <script>
 export default {
@@ -25,10 +25,34 @@ export default {
         background = 'blue'
         break;
       default :
-      background = 'green'
+        background = 'green'
     }
     return {
-      background,
+      background
+    }
+  },
+  computed: {
+    styleObject() {
+      let background;
+      switch(true) {
+        case this.number <= 10 :
+          background = 'red'
+          break;
+        case this.number <= 20 :
+          background = 'orange'
+          break;
+        case this.number <= 30 :
+          background = 'yellow'
+          break;
+        case this.number <= 40 :
+          background = 'blue'
+          break;
+        default :
+          background = 'green'
+      }
+      return {
+        background,
+      }
     }
   },
   created() {
