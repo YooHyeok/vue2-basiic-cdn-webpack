@@ -60,7 +60,11 @@
       
     },
     watch: {
-
+      redo(value, oldValue) {
+        if (value === false) {
+          this.showBalls();
+        }
+      }
     },
     methods: {
       onClickRedo() {
@@ -68,7 +72,6 @@
         this.winBalls = [];
         this.bonus = null;
         this.redo = false;
-        this.showBalls();
       },
       showBalls() {
         /* for (let i = 0; i < this.winNumbers.length -1; i++) {
@@ -80,15 +83,15 @@
           this.bonus = this.winNumbers[6];
           this.redo = true;
         }, 7000) */
-		interval = setInterval(() => {
-        if (this.winBalls.length > 5) {
-          this.bonus = this.winNumbers.pop()
-          this.redo = true
-          clearInterval(interval)
-          return;
-        }
-        this.winBalls.push({number: this.winNumbers.pop()})
-      }, 1000)
+        interval = setInterval(() => {
+          if (this.winBalls.length > 5) {
+            this.bonus = this.winNumbers.pop()
+            this.redo = true
+            clearInterval(interval)
+            return;
+          }
+          this.winBalls.push({number: this.winNumbers.pop()})
+        }, 1000)
       }
     },
   }
