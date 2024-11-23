@@ -10,6 +10,7 @@ export default {
     }
   },
   data() {
+    let background;
     switch(true) {
       case this.number <= 10 :
         background = 'red'
