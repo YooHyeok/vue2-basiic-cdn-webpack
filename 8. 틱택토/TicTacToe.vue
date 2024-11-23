@@ -1,5 +1,8 @@
 <template>
-  <TableCompnent :table-data="tableData"/>
+  <div>
+    <TableCompnent :table-data="tableData" :turn="turn"/>
+    <div>{{ turn }}님의 턴입니다.</div>
+  </div>
 </template>
 <script>
 import TableCompnent from './TableCompnent.vue';
@@ -18,6 +21,9 @@ export default {
     }
   },
   methods: {
+    example(){
+      console.log("내가 니 증조 할애비다")
+    }
   },
 }
 </script>
