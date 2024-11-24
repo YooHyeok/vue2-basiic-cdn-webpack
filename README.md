@@ -825,6 +825,120 @@ output을 로컬에 직접적으로 저장하지 않고 서버 프로세스가 �
 </details>
 
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">$root , $parent, $data</summary>
+<br>
+
+하위 컴포넌트인 현재 컴포넌트 기준 부모 컴포넌트와, 루트 컴포넌트 인스턴스에 접근할때 사용한다.
+
+# $root
+
+루트 Vue 인스턴스에 접근이 가능하다.  
+`this.$root` 형태 문법으로 접근하며 data변수의 경우 직접 수정이 가능하다.  
+모든 하위 컴포넌트에서 접근이 가능하며, **전역 저장소**처럼 활용할 수 있다.  
+
+---
+이러한 패턴은 아주 작은 크기의 어플리케이션이나, 적은 수의 컴포넌트에 대해서 유용하게 사용될 수 있으나,  
+어플리케이션의 크기가 커지게 될 때 해당 패턴을 확장하기란 쉬운 일이 아니다.  
+대부분의 경우 상태 관리를 위해 Vuex를 사용하는 것을 강력히 권장한다.  
+
+# $parent
+$root와 비슷하게 부모 Vue 인스턴스에 접근이 가능하다.  
+`this.$parent` 형태 문법으로 접근하며 data변수의 경우 직접 수정이 가능하다.  
+이는 prop을 이용해 데이터를 넘겨주는것 형태의 대안으로써 사용할 수 있다.  
+
+---
+대부분의 경우, 특히 부모 요소의 데이터를 자식 요소에서 변경하는 경우에 부모 요소에 접근하는 것은 디버깅의 편의성과 코드 가독성을 크게 해친다.  
+나중에 해당 컴포넌트를 다시 보았을 때, 어디서 변경이 발생하였는지를 추적하는 것이 굉장히 어려워 질 수 있다.  
+
+## 대안
+
+- `vue 2`
+  - **EventBus**
+- `vue3`
+  - **provider, inject**
+- `vue2/3 호환`
+  - **$emit**
+  - **props (function)** 
+
+
+# data 변수, methods 접근
+하위 컴포넌트에서 부모 혹은 루트 컴포넌트의 data변수 혹은 메소드에 직접 접근이 가능하다.
+
+## $data
+현재 참조중인 인스턴스의 data 객체이다.  
+`this.$인스턴스.$data` 형태 문법으로 참조한다.  
+`this.$인스턴스.$data.변수명` 형태로 data 객체 참조 후 변수에 접근한다.  
+(이때 인스턴스는 $root 혹은 $parent만 가능하다. )
+
+## data 직접 접근
+`this.$인스턴스.변수명` 형태로 변수에 직접 접근한다.
+
+## methods 호출
+`this.$인스턴스.메소드명` 형태로 메소드를 직접 호출한다.
+
+
+- ### Root.vue
+  ```html
+  <template>
+      <Parent/>
+  </template>
+  <script>
+  import Parent from './Parent.vue';
+  export default {
+    components: {Parent},
+    data() {
+      return {
+        root: 'root' // 턴전환: O팀 ↔ X팀 
+      }
+    },
+    methods: {
+      parentEx(){
+        console.log("내가 니 증조 할애비다 : ", this.root)
+      }
+    },
+  }
+  </script>
+  ```
+- ### Parent.vue
+  ```html
+  <template>
+      <Child/>
+  </template>
+  <script>
+  import Child from './Child.vue';
+  export default {
+    components: {Child},
+    data() {
+      return {
+        parent: 'parent' // 턴전환: O팀 ↔ X팀 
+      }
+    },
+    methods: {
+      parentEx(){
+        console.log("내가 니 애비다 : ", this.parent)
+      }
+    },
+  }
+  </script>
+  ```
+- ### Parent.vue
+  ```html
+  <script>
+  export default {
+    mounted() {
+      console.log(this.$root.$data) // 가장 최상위 부모의 data변수 접근
+      this.$root.example() // 가장 최상위 부모 메소드 접근
+      console.log(this.$parent.$data) // 직계 부모의 data변수 접근
+      this.$parent.example() // 직계 부모 메소드 접근
+    }
+  }
+  </script>
+  ```
+
+</details>
+<details>
+
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
