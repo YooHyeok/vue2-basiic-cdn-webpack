@@ -937,7 +937,27 @@ $root와 비슷하게 부모 Vue 인스턴스에 접근이 가능하다.
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">$set()</summary>
+<br>
 
+Vue 인스턴스에 javascript 객체를 data 옵션으로 전달하면 Vue는 모든 속성에 Object.defineProperty를 사용하여 getter/setter로 변환한다.  
+getter/setter는 사용자에게는 보이지 않으나 속성에 액세스 하거나 수정할 때 vue가 종속성 추적 및 변경 알림을 수행할 수 있다.
+
+그러나 vue에서 지원하는 최신 javscirpt에서는 변경을 감지하는 Object.observe가 deprecated 되었기 때문에 Vue는 속성의 추가/제거 는 감지할 수 없다.  
+Vue는 인스턴스 초기화 중 getter / setter 변환 프로세스를 수행하므로, data 객체에 속성이 있어야 vue가 이를 변환하고 응답할 수 있다.  
+vue는 이미 만들어진 인스턴스에 새로운 루트 수준의 반응 속성을 동적으로 추가하는 것을 허용하지 않는다.  
+그러나 `Vue.set(Object, key, value)` 매소드를 사용하여 중첩된 객체에 반응성 속성을 추가할 수 있다.  
+배열도 마찬가지이다. `Vue.set(Array, index, value)` 형태로 배열의 index를 변경/추가 하였을 경우 변경을 감지를 한다.  
+
+Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 수 있다.
+
+- 반응성 객체 동적 추가 대안
+  - $set()
+  - 전개식(Spread Operator)
+  - Object.assign
+
+
+</details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
