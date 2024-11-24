@@ -29,7 +29,7 @@ export default {
   methods: {
     example () {
       console.log(this.parent)
-    }
+    },
   }
 
 }
