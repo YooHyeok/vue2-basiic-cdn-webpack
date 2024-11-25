@@ -948,6 +948,44 @@ output을 로컬에 직접적으로 저장하지 않고 서버 프로세스가 �
 
 </details>
 <details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+    watch 속성
+  </summary>
+
+  관찰할 state를 등록한 뒤, 등록 된 state 상태가 변경되면 동작한다.  
+  ```html
+  <body>
+    <div id="app">
+      {{ convertMsg }} <br> <!-- 우로헬 -->
+      oldVal : {{ oldVal}} <br> <!-- Hello -->
+      newVal : {{ newVal}} <!-- 헬로우 -->
+    </div>
+    <script>
+    new Vue({
+      el: '#app',
+      data: {
+        newVal: '',
+        oldVal: '',
+        computedMsg: 'Hello'
+      },
+      watch: {
+        computedMsg(newVal, oldVal) { // computed의 converMsg을 통해 수정함.
+          this.newVal = newVal
+          this.oldVal = oldVal
+        }
+      },
+      computed: {
+        convertMsg(e) {
+          this.computedMsg = "헬로우" // 여기서 watch 대상을 수정함.
+          return this.computedMsg.split("").reverse().join('')
+        },
+      },
+    })
+    </script>
+  </body>
+  ```
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">$root , $parent, $data</summary>
 <br>
 
