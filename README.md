@@ -823,7 +823,130 @@ output을 로컬에 직접적으로 저장하지 않고 서버 프로세스가 �
 이때 중요한점은 메인 html 파일에서 /dist/app.js 경로의 script 파일을 참조해야만 한다.  
 (참조하지 않는다면 애초에 실행할 script가 없어지기 때문...)
 </details>
+<details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+    computed 속성
+  </summary>
 
+  ```html
+  <div>
+    {{ number+1 }}
+  </div>
+  ```
+  템플릿 내에 표현식을 넣으면 편리하다.  
+  ```html
+  <div>
+    {{ message.split("").reverse().join('') }}
+  </div>
+  ```
+  그러나 위와 같이 너무 많은 연산을 템플릿 내에서 하게 된다면 코드가 비대해지고 유지보수 하기 어려움이 있다.
+  이때 computed 속성을 사용한다.  
+
+  - computed 예제  
+    computed 속성에 함수를 선언하고, state에 접근하여 데이터를 가공한 뒤 가공한 데이터를 반환한다.  
+    이때, 함수명은 template에서 변수명으로 사용할 수 있게 된다.
+    **주의할 점은 computed속성에 선언한 함수는 함수로서 호출할 수 없고 변수로써 사용한다.**
+    ```html
+    <body>
+      <div id="app">
+        {{ convertMsg }}
+      </div>
+      <script>
+        new Vue({
+          el: '#app',
+          data: {
+            computedMsg: 'Hello',
+          },
+          computed: {
+            convertMsg() {
+              return this.computedMsg.split("").reverse().join('')
+            },
+          },
+        })
+      </script>
+    </body>
+    ```
+    Vue 인스턴스가 처음 생성될 때, mount 전 data속성이 정의된 computed속성이 정의된다. 또한, state의 변경을 감지한다. (state값이 변경되면 작동됨.)
+
+    커스텀으로 getter와 setter를 제공하지만, 예제에서는 이를 하나의 메소드로 적용하였다.
+    ```js
+    export default {
+      computed: {
+        convertMsg: {
+          get() {
+            console.log("get")
+            return this.computedMsg
+          },
+          set(value) {
+            console.log("set : ", value)
+            this.computedMsg = value.split("").reverse().join('')
+          },
+        }
+      },
+      methods: {
+        convertMsgF(newValue) {
+          return this.convertMsg = newValue
+        },
+      }
+    }
+    ```
+    computed의 convertMsg의 변경이 감지되면 convertMsg의 convertMsg를 value로 받아온 뒤 state에 초기화 한다.
+    즉, 특정 블록 내에서 computed속성에 정의한 변수(property)를 초기화 하는 로직이 작동 해야만 커스텀 set get 방식을 적용할 수 있게 된다.
+
+    또한 computed를 통해 한번 계산된 데이터는 캐싱이라는 기능으로 가져다가 사용할 수 있으며,
+    이로 인해 반복적인 함수 호출과 계산을 줄여준다
+
+    ```html
+    <body>
+      <div id="app">
+        {{ convertMsg() }}
+        {{ convertMsg() }}
+        {{ convertMsg() }}
+        {{ convertMsg() }}
+      </div>
+      <script>
+        new Vue({
+          el: '#app',
+          data: {
+            computedMsg: 'Hello',
+          },
+          methods: {
+            convertMsg() {
+              return this.computedMsg.split("").reverse().join('')
+            },
+          },
+        })
+      </script>
+    </body>
+    ```
+    위와 같이 메소드를 여러번 호출한다면, 호출할 때 마다 반환한다.
+
+    ```html
+    <body>
+      <div id="app">
+        {{ convertMsg }}
+        {{ convertMsg }}
+        {{ convertMsg }}
+        {{ convertMsg }}
+      </div>
+      <script>
+        new Vue({
+          el: '#app',
+          data: {
+            computedMsg: 'Hello',
+          },
+          computed: {
+            convertMsg() {
+              return this.computedMsg.split("").reverse().join('')
+            },
+          },
+        })
+      </script>
+    </body>
+    ```
+    그러나 computed는 접근한 data 변수가 변경되지 않는 이상 한번 연산된 결과값이 캐싱되어 출력된다.
+
+</details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">$root , $parent, $data</summary>
 <br>
