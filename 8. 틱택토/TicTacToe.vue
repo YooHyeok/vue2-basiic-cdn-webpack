@@ -1,7 +1,8 @@
 <template>
   <div>
-    <TableCompnent :table-data="tableData" :turn="turn"/>
     <div>{{ turn }}님의 턴입니다.</div>
+    <TableCompnent :table-data="tableData" :turn="turn"/>
+    <div v-if="winner">{{ winner }}님의 승리</div>
   </div>
 </template>
 <script>
@@ -17,7 +18,8 @@ export default {
         ['', '', ''],
         ['', '', ''],
       ],
-      turn: 'O' // 턴전환: O팀 ↔ X팀 
+      turn: 'O', // 턴전환: O팀 ↔ X팀
+      winner: ''
     }
   },
   methods: {
