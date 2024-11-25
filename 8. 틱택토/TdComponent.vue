@@ -17,6 +17,7 @@ export default {
       console.log(this.$parent.$data) // 직계 부모의 data변수 접근
       this.$parent.example()
       
+      if (this.cellData) return; // 선택된 cell 재클릭 방지
       const rootData = this.$root.$data;
       rootData.tableData
         [this.rowIndex] /* 클릭 된 가로(tr) 행 */
