@@ -2,7 +2,7 @@
   <td @click="onClickTd">{{ cellData }}</td>
 </template>
 <script>
-import EventBus from './EventBus';
+import { eventBus } from './EventBus';
 export default {
   name: 'TdComponent',
   props: {
@@ -14,7 +14,7 @@ export default {
   methods: {
     onClickTd() {      
       if (this.cellData) return; // 선택된 cell 재클릭 방지
-      EventBus.$emit('clickTd', this.rowIndex, this.cellIndex)
+      eventBus.$emit('clickTd', this.rowIndex, this.cellIndex)
     }
   }
 }

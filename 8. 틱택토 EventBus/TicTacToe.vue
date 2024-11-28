@@ -7,16 +7,16 @@
 </template>
 <script>
 import TableCompnent from './TableCompnent.vue';
-import EventBus from './EventBus';
+import { eventBus } from './EventBus';
 export default {
   components: {
       TableCompnent
   },
   created() {
-    EventBus.$on('clickTd', this.onClickTd);
+    eventBus.$on('clickTd', this.onClickTd);
   },
   beforeDestroy() {
-    EventBus.$on('clickTd', this.onClickTd);
+    eventBus.$on('clickTd', this.onClickTd);
   },
   data() {
     return {
