@@ -70,9 +70,6 @@ export default {
           this.turn = this.turn === 'O' ? 'X' : 'O'
         }
       }
-    },
-    example(){
-      console.log("내가 니 증조 할애비다")
     }
   },
 }

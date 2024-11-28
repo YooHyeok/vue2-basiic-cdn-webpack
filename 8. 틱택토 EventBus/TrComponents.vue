@@ -20,18 +20,7 @@ export default {
   props: {
     rowData: Array,
     rowIndex: Number
-  },
-  data() {
-    return {
-      parent: '내가 니 에비다'
-    }
-  },
-  methods: {
-    example () {
-      console.log(this.parent)
-    },
   }
-
 }
 </script>
 <style scoped>
