@@ -1120,6 +1120,57 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
 
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">EventBus</summary>
+<br>
+
+- ## EventBus
+  - ### `EventBus.js`
+      전역으로 eventBus라는 상수값 내보낸다.
+      여기서 new Vue()란 새로운 vue인스턴스를 생성하는것.
+    ```javascript
+    /* 생략 */
+    export const eventBus = new Vue()
+    /* 생략 */
+    ```
+   - 발행 $emit   
+    eventBus에 $emit을 통해 신호를 송신  
+    즉, eventBus라는 새로운 vue인스턴스가 부모 역할을 한다는 것으로 추론 가능하다.
+    해당 인스턴스를 참조하는 모든 컴포넌트에서는 해당 신호를 수신할 수 있게 된다.
+    첫번째 매개변수로 발행할 event명을, 두번째 매개변수로 매개변수 전달이 가능하다.  
+      ```vue
+      <script>
+      import { eventBus } from './EventBus';
+      export default {
+        methods: {
+          changeUser () {
+            eventBus.$emit('userWasEdited', new Date())
+          }
+        }
+      }
+      </script>
+      ```
+    - 구독/취소 $on/$off  
+      eventBus에 $on을 통해 신호를 수신  
+      eventBus로 부터 발행된 이벤트명을 등록함으로써 구독(수신) 하게 된다.
+      컴포넌트의 mounted 혹은 created 훅에서 수신하도록 처리하고,  
+      컴포넌트가 해제될때 구독을 취소하여 리소스를 관리한다.  
+      ```vue
+      <script>
+      import { eventBus } from './EventBus';
+      export default {
+        created () {
+          eventBus.$on('userWasEdited', (date) => {
+            this.editedDate = date
+          })
+        },
+        beforeDestroyed() {
+          eventBus.$off('userWasEdited')
+        }
+      }
+      </script>
+      ```
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
