@@ -15,6 +15,9 @@ export default {
   created() {
     EventBus.$on('clickTd', this.onClickTd);
   },
+  beforeDestroy() {
+    EventBus.$on('clickTd', this.onClickTd);
+  },
   data() {
     return {
       tableData: [
