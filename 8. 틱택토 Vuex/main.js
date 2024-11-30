@@ -1,4 +1,8 @@
 import Vue from 'vue'
 import TicTacToe from './TicTacToe'
+import store from './store'
 
-new Vue(TicTacToe).$mount('#root'); // vue2 마운트
+new Vue({
+  store,
+  render: createElement => createElement(TicTacToe)
+}).$mount('#root'); // vue2 마운트
