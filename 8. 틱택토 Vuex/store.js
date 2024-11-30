@@ -35,7 +35,7 @@ export default new Vuex.Store({
       Vue.set(state.tableData[row], cell, state.turn);
     },
     [CHANGE_TURN](state) { // Turn 변경
-      state.turn = state.turn = 'O' ? 'X' : 'O';
+      state.turn = state.turn === 'O' ? 'X' : 'O';
     },
     [RESET_GAME](state) { // 게임 초기화
       state.turn = 'O'
