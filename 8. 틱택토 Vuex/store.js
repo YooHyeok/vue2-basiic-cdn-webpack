@@ -1,13 +1,20 @@
+import Vue from 'vue';
 import Vuex from 'vuex';
-
-export const SET_WINNER = 'SET_WINNER' // 함수를 변수로 추출 (ES2015 문법 - Object Dynamic Property)
+/**
+ * Object Dynamic Property (ES2015 문법)  
+ * 메소드 key를 변수로 추출  
+ * import { SET_WINNER, CLICK_CELL, CHANGE_TURN, RESET_GAME, NO_WINNER }  
+ * vuex는 호출시 String 문자열로 메소드를 호출한다.  
+ * commit(SET_WINNER ) == commit('SET_WINNER')  
+ */
+export const SET_WINNER = 'SET_WINNER'
 export const CLICK_CELL = 'CLICK_CELL'
 export const CHANGE_TURN = 'CHANGE_TURN'
 export const RESET_GAME = 'RESET_GAME'
 export const NO_WINNER = 'NO_WINNER'
 
-
-export default new Vuex.store({
+Vue.use(Vuex);
+export default new Vuex.Store({
   state: { // data 역할
     tableData: [
       ['', '', ''],
@@ -25,7 +32,6 @@ export default new Vuex.store({
       state.winner = payload;
     },
     [CLICK_CELL](state, {row, cell}) { // 셀 클릭 (클릭된 셀에 현재 턴 할당)
-      // state.tableData[row][cell] = state.run;
       Vuex.set(state.tableData[row], cell, state.run);
     },
     [CHANGE_TURN](state) { // Turn 변경
