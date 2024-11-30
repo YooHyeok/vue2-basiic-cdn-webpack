@@ -25,7 +25,8 @@ export default new Vuex.store({
       state.winner = payload;
     },
     [CLICK_CELL](state, {row, cell}) { // 셀 클릭 (클릭된 셀에 현재 턴 할당)
-      state.tableData[row][cell] = state.run;
+      // state.tableData[row][cell] = state.run;
+      Vuex.set(state.tableData[row], cell, state.run);
     },
     [CHANGE_TURN](state) { // Turn 변경
       state.turn = state.turn = 'O' ? 'X' : 'O';
