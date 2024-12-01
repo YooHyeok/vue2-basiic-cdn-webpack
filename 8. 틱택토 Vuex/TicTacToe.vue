@@ -12,12 +12,15 @@ export default {
       TableCompnent
   },
   computed: {
+    store() {
+      return this.$store
+    },
     turn() {
-      return this.$store.state.turn
+      return this.store.state.turn
     },
     winner() {
-      return this.$store.state.winner
-    },
+      return this.store.state.winner
+    }
   },
 }
 </script>
