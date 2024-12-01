@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>{{ turn }}님의 턴입니다.</div>
-    <TableCompnent :table-data="tableData" :turn="turn"/>
+    <TableCompnent/>
     <div v-if="winner">{{ winner }}님의 승리</div>
   </div>
 </template>
@@ -11,18 +11,14 @@ export default {
   components: {
       TableCompnent
   },
-  data() {
-    return {
-      tableData: [
-        ['', '', ''],
-        ['', '', ''],
-        ['', '', ''],
-      ],
-      turn: 'O', // 턴전환: O팀 ↔ X팀
-      winner: ''
-    }
+  computed: {
+    turn() {
+      return this.$store.state.turn
+    },
+    winner() {
+      return this.$store.state.winner
+    },
   },
-  
 }
 </script>
 <style>
