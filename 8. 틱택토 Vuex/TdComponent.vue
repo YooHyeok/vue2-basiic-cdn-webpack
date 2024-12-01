@@ -2,6 +2,7 @@
   <td @click="onClickTd">{{ cellData }}</td>
 </template>
 <script>
+import { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from './store';
 export default {
   name: 'TdComponent',
   props: {
@@ -28,7 +29,7 @@ export default {
       const tableData = this.tableData;
       const turn = this.turn;
       
-      this.$store.commit('CLICK_CELL', {row: rowIndex, cell: cellIndex}) // CLICK_CELL mutations 메소드 호출(commit)
+      this.$store.commit(CLICK_CELL, {row: rowIndex, cell: cellIndex}) // CLICK_CELL mutations 메소드 호출(commit)
       let win = false; // 승/무 여부
       /* 3목 여부 확인 */
       if (tableData[rowIndex][0] === turn && tableData[rowIndex][1] === turn && tableData[rowIndex][2] === turn) {
@@ -45,8 +46,8 @@ export default {
       }
       /* 이긴 경우(3목 달성) */
       if (win) {
-        this.$store.commit('SET_WINNER', turn) // SET_WINNER mutations 메소드 호출(commit)
-        this.$store.commit('RESET_GAME') // RESET_GAME mutations 메소드 호출(commit)
+        this.$store.commit(SET_WINNER, turn) // SET_WINNER mutations 메소드 호출(commit)
+        this.$store.commit(RESET_GAME) // RESET_GAME mutations 메소드 호출(commit)
       } else { /* 무승부 */
         let all = true;
         tableData.forEach((row) => { /* 무승부 검사 */
@@ -57,10 +58,10 @@ export default {
           });
         });
         if (all) { /* 무승부 */
-          this.$store.commit('NO_WINNER') // NO_WINNER mutations 메소드 호출(commit)
-          this.$store.commit('RESET_GAME') // RESET_GAME mutations 메소드 호출(commit)
+          this.$store.commit(NO_WINNER) // NO_WINNER mutations 메소드 호출(commit)
+          this.$store.commit(RESET_GAME) // RESET_GAME mutations 메소드 호출(commit)
         } else { // !(승&&무)
-          this.$store.commit('CHANGE_TURN') // CHANGE_TURN mutations 메소드 호출(commit)
+          this.$store.commit(CHANGE_TURN) // CHANGE_TURN mutations 메소드 호출(commit)
         }
       }
     }
