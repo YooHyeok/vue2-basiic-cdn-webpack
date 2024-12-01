@@ -1,8 +1,7 @@
 <template>
   <div>
-    <div>{{ turn }}님의 턴입니다.</div>
+    <div>{{ turnMessage }}</div>
     <TableCompnent/>
-    <div v-if="winner">{{ winner }}님의 승리</div>
     <div v-if="winner">{{ winMessage }}</div>
   </div>
 </template>
@@ -16,8 +15,8 @@ export default {
     store() {
       return this.$store
     },
-    turn() {
-      return this.store.state.turn
+    turnMessage() {
+      return this.store.getters.turnMessage
     },
     winner() {
       return this.store.state.winner

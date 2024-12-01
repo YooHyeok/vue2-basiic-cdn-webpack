@@ -25,8 +25,11 @@ export default new Vuex.Store({
     winner: ''
   },
   getters: { // computed 역할
+    turnMessage(state) {
+      return `${state.turn} 님의 턴입니다.`
+    },
     winMessage(state) {
-      return `${state.turn} 님이 승리하셨습니다.`
+      return `${state.winner} 님이 승리하셨습니다.`
     }
   },
   mutations: { // state 수정(동기)
