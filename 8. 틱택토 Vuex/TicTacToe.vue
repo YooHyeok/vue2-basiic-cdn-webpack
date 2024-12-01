@@ -3,6 +3,7 @@
     <div>{{ turn }}님의 턴입니다.</div>
     <TableCompnent/>
     <div v-if="winner">{{ winner }}님의 승리</div>
+    <div v-if="winner">{{ winMessage }}</div>
   </div>
 </template>
 <script>
@@ -20,6 +21,9 @@ export default {
     },
     winner() {
       return this.store.state.winner
+    },
+    winMessage() {
+      return this.store.getters.winMessage
     }
   },
 }

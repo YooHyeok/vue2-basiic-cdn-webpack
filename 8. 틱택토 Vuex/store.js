@@ -25,7 +25,9 @@ export default new Vuex.Store({
     winner: ''
   },
   getters: { // computed 역할
-
+    winMessage(state) {
+      return `${state.turn} 님이 승리하셨습니다.`
+    }
   },
   mutations: { // state 수정(동기)
     [SET_WINNER](state, payload) { // 승자 할당
