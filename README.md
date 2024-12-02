@@ -1171,6 +1171,72 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
       ```
 </details>
 <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex</summary>
+<br>
+
+  <details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">install & setting</summary>
+  <br>
+
+  - ### vue2(2.6.10) 호환 `vuex3.1.1` 설치
+
+    ```bash
+    npm install vuex@3.1.1
+    ```
+
+  - ### Vuex store 모듈  생성  
+
+    1. Vue 전역 인스턴스에 플러그인으로 등록  
+      `Vue.use(Vuex)`
+    2. Vuex 인스턴스 생성 및 기본 틀 구현  
+      `new Vuex.store({/* 생략 */})`
+
+    ```js
+    import Vue from 'vue'
+    import Vuex from 'vuex'
+
+    Vue.use(Vuex) // 플러그인 등록
+    export const store = new Vuex.store({
+      state: {
+        todos: [
+          { id: 1, text: 'buy a car', checked: false},
+          { id: 2, text: 'play a game', checked: false},
+        ]
+      },
+      mutations: {},
+      actions: {},
+      getters: {}
+    })
+
+    ```
+
+  - ### 루트 Vue 인스턴스 store 모듈 주입
+
+    1. Vue 전역 인스턴스에 플러그인으로 등록  
+      `Vue.use(Vuex)`
+    2. Vuex 인스턴스 생성 및 기본 틀 구현  
+      `new Vuex.store({/* 생략 */})`
+
+    ```js
+    import Vue from 'vue'
+    import Component from './Component'
+    import { store } from './store'
+
+    console.log(store)
+
+    new Vue({
+      store, /* 모듈 등록 */
+      render: Component => createElement(Component)
+    }).$mount('#root'); // vue2 마운트
+    ```
+
+    **주의할점**은 Vuex 플러그인 등록시 Vuex 인스턴스로부터 store() 함수가 호출되기 전에 등록되어야만 한다.  
+    만약 main.js에서 `Vue.use(Vuex)` 코드를 적용하여 Vuex를 플로그인으로 등록한다고 가정해보자.
+    import가 먼저 실행되므로 Vuex의 store함수가 호출된 후 Vuex가 플러그인으로 등록되어 시점 문제가 발생하게 된다.
+
+  </details>
+</details>
+<details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
 
