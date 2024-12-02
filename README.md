@@ -1235,6 +1235,44 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
     import가 먼저 실행되므로 Vuex의 store함수가 호출된 후 Vuex가 플러그인으로 등록되어 시점 문제가 발생하게 된다.
 
   </details>
+  <details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">State</summary>
+  <br>
+
+  # 호출
+  state 변수는 vue 확장자 파일의 computed 속성에 호출하여 사용한다.  
+
+  computed는 함수 형태를 정의하고, template에 해당 함수를 할당 함으로 초기 렌더링시 computed에 정의 한 함수가 호출된다.  
+  또한, 내부적으로 data나 state의 변경을 감지하면 이를 의존하고 있는 computed에 정의한 함수가 다시 호출 된다.  
+  여기서 말하는 의존이란, 계산된 값이 어떤 다른값에 따라 달라진다는 의미로,  
+  computed 속성의 결과가 특정한 data 속성이나 vuex state값을 기준으로 결정될 때,  
+  그 값을 "의존성" 이라고 한다.  
+
+  이때 state 혹은 data 그 자체를 하나로 의존하는 것이 아니라 computed에서 참조하는 특정(세부) 대상을 지칭한다.  
+  data라면 data에 나열된 변수중 computed에서 정확히 참조하는 변수,  
+  vuex state라면 state에 나열된 변수중 computed에서 정확히 참조하는 변수를 말한다.  
+  데이터 변수의 경우 `return this.todo` 면 `todo`, `return this.user` 면 `user`가 computed의 의존성이고  
+  vuex state 변수의 경우 `return this.$store.state.todo` 면 `todo`, `return this.$store.state.user` 면 `user`가 computed의 의존성이 된다.  
+
+
+  - ### ___.vue
+    ```html
+    <template>
+      {{ todos }}
+    </template>
+    <script>
+      export default {
+        computed: {
+          todos() {
+            return this.$store.state.todoss
+          }
+        }
+      }
+    </script>
+    ```
+
+
+  </details>
 </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
