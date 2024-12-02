@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import TicTacToe from './TicTacToe'
+// import TicTacToe from './TicTacToe'
+import TicTacToe from './component/storeAccess/TicTacToe'
 import store from './store'
 
 new Vue({

@@ -2,7 +2,7 @@
   <td @click="onClickTd">{{ cellData }}</td>
 </template>
 <script>
-import { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from './store';
+import { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from '../../store';
 export default {
   name: 'TdComponent',
   props: {
