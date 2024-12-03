@@ -8,6 +8,7 @@
   </table>
 </template>
 <script>
+import { mapState } from 'vuex';
 import TrComponents from './TrComponents'
 export default {
   name: 'TableComponent',
@@ -15,9 +16,9 @@ export default {
     TrComponents
   },
   computed: {
-    tableData() {
-      return this.$store.state.tableData
-    }
+    ...mapState({
+      tableData: state => state.tableData
+    })
   }
 }
 </script>
