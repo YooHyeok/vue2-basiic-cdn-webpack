@@ -1425,6 +1425,70 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
       첫번째 매개변수로는 actions에 정의한 함수 이름, 두번째 매개변수로는 해당 함수의 두번째 매개변수인 payload 전달값을 할당할 수 있다.
 
   </details>
+  <details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Getters</summary>
+  <br>
+
+  # 정의
+  Vuex에서 getters는 vue 인스턴스에서 computed와 비슷한 역할을 한다.  
+  연산된 state값을 접근하는 속성으로 여러 뷰 컴포넌트에서 재사용이 가능하다.   
+  computed와 같이 캐싱 기능이 있다.
+
+
+  - ### Store
+    ```js
+    import Vue from 'vue'
+    import Vuex from 'vuex'
+    Vue.use(Vuex)
+
+    export default new Vuex.Store({
+      state: {
+        todos: [
+          { id: 1, text: 'buy a car', checked: false},
+          { id: 2, text: 'play a game', checked: false},
+        ]
+      },
+      mutations: {
+      },
+      actions: {
+      },
+      getters: {
+        numberOfCompletedTodo(state) {
+        return state.todos.filter(todo => todo.checked).length
+      }
+      }
+    })
+    ```
+    getters에 정의한 함수는 첫번째 매개변수로 store의 state를 접근할 수 있다.  
+    (호출부에서 전달하는것이 아님.)
+
+  # 호출
+
+  getters는 vue 인스턴스의 computed속성에 정의된 함수의 반환값에 호출하여 사용한다.
+  - ### ___.vue
+    ```html
+    <template>
+      <div>
+        Completed Todo: {{ numberOfCompletedTodo }}
+      </div>
+    </template>
+
+    <script>
+    export default {
+      name: 'CompletedTodo',
+      computed: {
+        /* numberOfCompletedTodo() { // getters 적용 전 (state 직접 접근 후 연산)
+            return this.$store.state.todos.filter(todo => todo.checked).length
+        }, */
+        numberOfCompletedTodo() {
+          return this.$store.getters.numberOfCompletedTodo // getters 적용
+        }
+      },
+    };
+    </script>
+    ```
+
+  </details>
 </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
