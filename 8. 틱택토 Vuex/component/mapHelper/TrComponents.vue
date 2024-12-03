@@ -10,6 +10,7 @@
   </tr>
 </template>
 <script>
+import { mapState } from 'vuex'
 import TdComponent from './TdComponent'
 export default {
   name: 'TrComponents',
@@ -17,9 +18,11 @@ export default {
     TdComponent
   },
   computed: {
-    rowData() {
-      return this.$store.state.tableData[this.rowIndex]
-    }
+    ...mapState({
+      rowData(state) {
+        return state.tableData[this.rowIndex]
+      }
+    })
   },
   props: {
     rowIndex: Number
