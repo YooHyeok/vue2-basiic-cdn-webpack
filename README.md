@@ -1341,6 +1341,90 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
       첫번째 매개변수로는 mutations에 정의한 함수 이름, 두번째 매개변수로는 해당 함수의 두번째 매개변수인 payload 전달값을 할당할 수 있다.
 
   </details>
+  <details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Actions</summary>
+  <br>
+
+  # 정의
+  Vuex에서 actions는 비즈니스로직 즉, 여러개의 mutations를 조합하여 호출하거나 비동기적인 로직을 처리할 때 사용한다.
+  여기서 말하는 비동기적인 로직은 fetch나 axios, jQuert의 ajax 뿐만 아니라 Promise객체, Async~Await 그 자체를 말한다.  
+
+  mutations에서 비동기 로직을 처리할 경우 mutations가 호출되고난 뒤, 비동기 로직이 종료되기 전 mutations의 함수 블록이 종료된다.  
+  state 변경을 보장받을 수 없고, getters같은 state 변경 감지에 대한 작업 처리에 영향을 주게 된다.
+
+  따라서 state의 직접적인 변경은 mutations에서 관리하고, 비동기적 작업은 actions에서 관리한다.  
+  (actions에서 비동기적인 작업 후 mutations를 commit-호출하는 flow로 설계할 수 있다.)
+
+
+  - ### Store
+    ```js
+    import Vue from 'vue'
+    import Vuex from 'vuex'
+    Vue.use(Vuex)
+
+    export default new Vuex.Store({
+      state: {
+        todos: [
+          { id: 1, text: 'buy a car', checked: false},
+          { id: 2, text: 'play a game', checked: false},
+        ]
+      },
+      mutations: {
+        ADD_TODO(state, payload) {
+          state.todos.push({
+            id: Math.random(),
+            text: payload,
+            checked: false
+          })
+        },
+      },
+      actions: {
+        addTodo(context, payload) {
+        const {commit, dispatch} = context;
+        /* 비동기 작업 ex) axios(2초 소요) 후 commit 호출 */
+        setTimeout(function() {
+          commit('ADD_TODO', payload);
+        }, 2000) //2초 후 실행
+      },
+      },
+      getters: {
+
+      }
+    })
+    ```
+    
+    actions함수는 매개변수로 context와 payload를 받는다.
+    context에는 commit과 dispatch 함수가 존재한다.
+    commit을 통해 mutations을 호출하고 dispatch를 통해 다른 actions 함수를 호출한다.
+
+  # 호출
+
+
+  - ### dispatch
+    actions를 vue 확장자 파일에서 호출할때는 methods 속성에서 함수를 정의하고, dispatch를 통해 호출한다.
+
+    - #### ___.vue
+      ```html
+      <template>
+        <button 
+          @keyup.enter="addTodo"
+        >
+      </template>
+
+      <script>
+      export default {
+        name: 'AddTodo',
+        methods: {
+          addTodo(e) {
+            this.$store.dispatch('addTodo', e.target.value) // action 호출
+          },
+        },
+      };
+      </script>
+      ```
+      첫번째 매개변수로는 actions에 정의한 함수 이름, 두번째 매개변수로는 해당 함수의 두번째 매개변수인 payload 전달값을 할당할 수 있다.
+
+  </details>
 </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
