@@ -2,7 +2,8 @@
   <td @click="onClickTd">{{ cellData }}</td>
 </template>
 <script>
-import { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from './store';
+import { mapState } from 'vuex';
+import { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from '../../store';
 export default {
   name: 'TdComponent',
   props: {
@@ -13,15 +14,13 @@ export default {
     store () {
       return this.$store;
     },
-    tableData() {
-      return this.store.state.tableData;
-    },
-    cellData() {
-      return this.store.state.tableData[this.rowIndex][this.cellIndex];
-    },
-    turn() {
-      return this.store.state.turn;
-    },
+    ...mapState({
+      tableData: state => state.tableData,
+      turn: state => state.turn,
+      cellData(state) {
+        return state.tableData[this.rowIndex][this.cellIndex];
+      },
+    })
   },
   methods: {
     onClickTd() {
