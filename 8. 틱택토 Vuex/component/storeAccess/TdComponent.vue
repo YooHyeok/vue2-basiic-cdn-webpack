@@ -2,25 +2,23 @@
   <td @click="onClickTd">{{ cellData }}</td>
 </template>
 <script>
-import { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from '../../store';
+import store, { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from '../../store';
 export default {
+  store,
   name: 'TdComponent',
   props: {
     rowIndex: Number,
     cellIndex: Number,
   },
   computed: {
-    store () {
-      return this.$store;
-    },
     tableData() {
-      return this.store.state.tableData;
+      return store.state.tableData;
     },
     cellData() {
-      return this.store.state.tableData[this.rowIndex][this.cellIndex];
+      return store.state.tableData[this.rowIndex][this.cellIndex];
     },
     turn() {
-      return this.store.state.turn;
+      return store.state.turn;
     },
   },
   methods: {
@@ -31,7 +29,6 @@ export default {
       const rowIndex = this.rowIndex;
       const tableData = this.tableData;
       const turn = this.turn;
-      const store = this.store
       
       store.commit(CLICK_CELL, {row: rowIndex, cell: cellIndex}) // CLICK_CELL mutations 메소드 호출(commit)
       let win = false; // 승/무 여부

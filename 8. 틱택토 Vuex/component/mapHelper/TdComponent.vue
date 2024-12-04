@@ -3,17 +3,15 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from '../../store';
+import store, { CLICK_CELL, SET_WINNER, NO_WINNER, RESET_GAME, CHANGE_TURN } from '../../store';
 export default {
+  store,
   name: 'TdComponent',
   props: {
     rowIndex: Number,
     cellIndex: Number,
   },
   computed: {
-    store () {
-      return this.$store;
-    },
     ...mapState({
       tableData: state => state.tableData,
       turn: state => state.turn,
@@ -30,7 +28,6 @@ export default {
       const rowIndex = this.rowIndex;
       const tableData = this.tableData;
       const turn = this.turn;
-      const store = this.store
       
       store.commit(CLICK_CELL, {row: rowIndex, cell: cellIndex}) // CLICK_CELL mutations 메소드 호출(commit)
       let win = false; // 승/무 여부
