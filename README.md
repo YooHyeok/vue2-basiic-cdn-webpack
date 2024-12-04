@@ -1577,6 +1577,122 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
 
 
   </details>
+  <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Modules</summary>
+<br>
+
+  - ### store/modules/todo.js
+    ```js
+    export default {
+      namespaced: true,
+      state: {
+        todos: [
+          { id: 1, text: 'buy a car', checked: false},
+          { id: 2, text: 'play a game', checked: false},
+        ],
+      },
+      mutations: { // state 접근 및 변경 함수 정의
+        ADD_TODO(state, payload) {
+          console.log("payload: ", payload)
+          state.todos.push({
+            id: Math.random(),
+            text: payload,
+            checked: false
+          })
+        },
+      },
+      actions: { // 비동기 작업 후 state 변경
+        addTodo(context, payload) {
+          const {commit, dispatch} = context;
+          /* 비동기 작업 ex) axios(2초 소요) 후 commit 호출 */
+          setTimeout(function() {
+            commit('ADD_TODO', payload);
+          }, 2000) //2초 후 실행
+        },
+      },
+      getters: { // 컴포넌트의 computed에서 사용한다. (재사용 가능) computed처럼 캐싱기능 있음.
+        numberOfCompletedTodo(state) {
+          return state.todos.filter(todo => todo.checked).length
+        }
+      }
+    }
+    ```
+  - ### store/modules/user.js
+    ```js
+    export default {
+      namespaced: true,
+      state: {
+        users: [/* 생략 */],
+      },
+      mutations: {/* 생략 */},
+      actions: {/* 생략 */},
+      getters: {/* 생략 */}
+    }
+    ```
+
+
+  - ### store/index.js
+
+    ```js
+    import Vue from 'vue'
+    import Vuex from 'vuex'
+    import todo from './modules/todo'
+    import user from './modules/user'
+    Vue.use(Vuex)
+
+    export default new Vuex.Store({
+      modules: {
+        todo,user // nameSpace 등록 
+      },
+      state: {},
+      mutations: {},
+      actions: {},
+      getters: {},
+    })
+    ```
+
+  - ### Arrow 참조 & Object Mapping
+
+    ```html
+    <script>
+    import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+    export default {
+      computed: {
+        ...mapState(state => state.todo.todos)
+        ...mapState({schedule: state => state.todo.todos})
+        ...mapGetters('todo', ['numberOfCompletedTodo']) // getters는 화살표 함수 참조가 불가능하다.
+      },
+      methods: {
+        ...mapMutations({
+          ADD_TODO: (context, payload) => context.commit('todo/ADD_TODO', payload),
+        })
+        ...mapActions({
+          addTodo: (context, payload) => context.dispatch('todo/addTodo', payload)
+        })
+      }
+    };
+    </script>
+    ```
+  - ### Arrow 참조 & Object Mapping
+
+    ```html
+    <script>
+    import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+    export default {
+      computed: {
+        ...mapState('todo', ['todos'])
+        ...mapState('todo', {schedule: 'todos'})
+        ...mapGetters('todo', ['numberOfCompletedTodo']) // getters는 화살표 함수 참조가 불가능하다.
+      },
+      methods: {
+        ...mapMutations('todo', {ADD_TODO: 'ADD_TODO'}),
+        ...mapActions('todo', {addTodo: 'addTodo'}),
+      }
+    };
+    </script>
+    ```
+
+  </details>
 </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
