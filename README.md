@@ -1578,7 +1578,7 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
 
   </details>
   <details>
-<summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Modules</summary>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Modules 01 (Usage)</summary>
 <br>
 
   - ### store/modules/todo.js
@@ -1690,6 +1690,114 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
       }
     };
     </script>
+    ```
+
+  </details>
+  <details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Modules 02 (createNamespacedHelpers)</summary>
+  <br>
+
+  - ### Arrow 참조 & Object Mapping
+
+    ```html
+    <script>
+    
+    import { createNamespacedHelpers } from 'vuex'
+    const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('todo')
+    export default {
+      computed: {
+        ...mapState(state => state.todos)
+        ...mapState({
+          people: state => state.todos
+        })
+        ...mapGetters(['numberOfCompletedTodo']) // getters는 화살표 함수 참조가 불가능하다.
+      },
+      methods: {
+        ...mapMutations({
+          ADD_TODO: (context, payload) => context.commit('ADD_TODO', payload),
+        })
+        ...mapActions({
+          addTodo: (context, payload) => context.dispatch('addTodo', payload)
+        })
+
+      }
+    };
+    </script>
+    ```
+  - ### String 참조 - Array
+
+    ```html
+    <script>
+    import { createNamespacedHelpers } from 'vuex'
+    const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('todo')
+    export default {
+      computed: {
+        ...mapState(['aS', 'bS', 'cS'])
+        ...mapGetters(['aG', 'bG', 'cG']) 
+      },
+      methods: {
+        ...mapMutations(['aM', 'bM', 'cM'])
+        ...mapActions(['aA', 'bA', 'cA'])
+      }
+    };
+    </script>
+    ```
+
+  - ### String 참조 - Object Mapping
+
+    ```html
+
+    <script>
+    import { createNamespacedHelpers } from 'vuex'
+    const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('todo')  export default {
+      computed: {
+        ...mapState(['todos'])
+        ...mapState({schedule: 'todos'}) // 다른 이름으로 맵핑
+        ...mapGetters(['numberOfCompletedTodo']) 
+        ...mapGetters({count: 'numberOfCompletedTodo'}) // getters는 화살표 함수 참조가 불가능하다.
+      },
+      methods: {
+        ...mapMutations(['ADD_TODO'])
+        ...mapMutations({ADD_TODO: 'ADD_TODO'})
+        ...mapActions(['addTodo'])
+        ...mapActions({addTodo: 'addTodo'})
+      }
+    };
+    </script>
+    ```
+
+    ## 다중 modules 참조
+
+    ```js
+    import { createNamespacedHelpers } from 'vuex'
+    const {mapState : mapTodoState,  mapGetters: mapTodoGetters,
+          mapActions: mapTodoActions,  mapMutations: mapTodoMutations } = createNamespacedHelpers('todo');
+    const {mapState : mapUserState,  mapGetters: mapUserGetters,
+          mapActions: mapUserActions,  mapMutations: mapUserMutations } = createNamespacedHelpers('user');
+    export default {
+      computed: {
+        ...mapTodoState(['todos'])
+        ...mapTodoState({schedule: 'todos'}) 
+        ...mapTodoGetters(['numberOfCompletedTodo']) 
+        ...mapTodoGetters({count: 'numberOfCompletedTodo'}) 
+
+        ...mapTodoState(['users'])
+        ...mapTodoState({people: 'users'}) 
+        ...mapTodoGetters(['numberOfCompletedUser']) 
+        ...mapTodoGetters({size: 'numberOfCompletedUser'}) 
+      },
+      methods: {
+        ...mapTodoMutations(['ADD_TODO'])
+        ...mapTodoMutations({ADD_TODO: 'ADD_TODO'})
+        ...mapTodoActions(['addTodo'])
+        ...mapTodoActions({addTodo: 'addTodo'})
+
+        ...mapTodoMutations(['ADD_USER'])
+        ...mapTodoMutations({ADD_USER: 'ADD_USER'})
+        ...mapTodoActions(['addUser'])
+        ...mapTodoActions({addUser: 'addUser'})
+      }
+    };
     ```
 
   </details>
