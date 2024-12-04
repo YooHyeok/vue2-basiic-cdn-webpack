@@ -1489,6 +1489,94 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
     ```
 
   </details>
+  <details>
+<summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Map helper</summary>
+<br>
+  this.$store 객체를 통한 store의 접근 코드는 컴포넌트가 많아질수록 추적이 어려워진다.  
+  Vuex store에는 state, mutations, actions, getters 각 속성을 빠르게 접근할 수 있는 기능을 제공한다.  
+  computed에서 this.$store객체를 재정의 하는것을 `...map____(특정문법)` 형태로 축약하여 사용한다.  
+  
+  ## Map Helper 종류
+  - mapState
+  - mapMutations
+  - mapActions
+  - mapState
+
+  - ### Arrow 참조 & Object Mapping
+
+    ```html
+    <template>
+      <div>
+        <button @click="ADD_TODO">{{todos.text}}</button>
+        <button @click="addTodo">{{schedule}}</button>
+      </div>
+    </template>
+    <script>
+    import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+    export default {
+      computed: {
+        ...mapState(state => state.todos) // template나 script영역에서 data 변수처럼 접근할 수 있게된다.
+        ...mapState({
+          schedule: state => state.todos
+        })
+        ...mapGetters(['numberOfCompletedTodo']) // getters는 화살표 함수 참조가 불가능하다.
+      },
+      methods: {
+        ...mapMutations({
+          ADD_TODO: (context, payload) => context.commit('ADD_TODO', payload),
+        })
+        ...mapActions({
+          addTodo: (context, payload) => context.dispatch('addTodo', payload)
+        })
+
+      }
+    };
+    </script>
+    ```
+  - ### String 참조 - Array
+
+    ```html
+
+    <script>
+    import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+    export default {
+      computed: {
+        ...mapState(['aS', 'bS', 'cS'])
+        ...mapGetters(['aG', 'bG', 'cG']) 
+      },
+      methods: {
+        ...mapMutations(['aM', 'bM', 'cM'])
+        ...mapActions(['aA', 'bA', 'cA'])
+      }
+    };
+    </script>
+    ```
+
+  - ### String 참조 - Object Mapping
+
+    ```html
+
+    <script>
+    import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+    export default {
+      computed: {
+        ...mapState(['todos'])
+        ...mapState({schedule: 'todos'}) // 다른 이름으로 맵핑
+        ...mapGetters(['numberOfCompletedTodo']) 
+        ...mapGetters({count: 'numberOfCompletedTodo'}) // getters는 화살표 함수 참조가 불가능하다.
+      },
+      methods: {
+        ...mapMutations(['ADD_TODO'])
+        ...mapMutations({ADD_TODO: 'ADD_TODO'})
+        ...mapActions(['addTodo'])
+        ...mapActions({addTodo: 'addTodo'})
+      }
+    };
+    </script>
+    ```
+
+
+  </details>
 </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
