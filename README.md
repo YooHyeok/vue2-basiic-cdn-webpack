@@ -1801,7 +1801,56 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
     ```
 
   </details>
-</details>
+  <details>
+  <summary style="font-size:30px; font-weight:bold; font-style:italic;">Vuex Modules 03 (Dynamic Register)</summary>
+  <br>
+
+    - ### 동적 모듈 추가/제거
+      ```js
+      // user 모듈 추가
+      this.$store.registerModule('user');
+
+      // user 모듈 제거
+      this.$store.unregisterModule('user');
+
+      ```
+
+    - ### 동적 중첩 모듈 추가/제거
+      ```js
+
+      // 중첩 모듈 추가
+      this.$store.registerModule(['user', 'profile']);
+      // 중첩 모듈 추가
+      this.$store.registerModule(['user', 'profile']);
+
+      // 중첩 모듈 제거
+      this.$store.unregisterModule(['user', 'profile']);
+      ```
+      
+      동적 모듈 추가/제거 기능은 언제 사용할까?  
+
+
+      1. **조건부 필요성**  
+      특정 기능이나 데이터가 더 이상 필요하지 않은 경우, 예를 들어 사용자가 로그아웃할 때 사용자 관련 모듈을 제거하거나 특정 페이지에서만 필요한 모듈을 동적으로 제거할 수 있습니다.
+      2. **메모리 관리**  
+      불필요한 모듈을 제거함으로써 메모리 사용을 최적화할 수 있습니다. 특히 모바일 기기나 리소스가 제한된 환경에서는 메모리 관리가 중요합니다.
+      3. **성능 개선**  
+      불필요한 상태 관리 및 뮤테이션이 계속해서 발생하는 것을 방지하여 애플리케이션의 성능을 개선할 수 있습니다. 사용자가 다른 섹션으로 이동할 때 해당 섹션과 관련된 상태를 해제할 수 있습니다.
+      4. **동적 라우팅과 UI 변화**  
+      애플리케이션이 사용자의 행동이나 네비게이션에 따라 UI를 변경하는 경우, 필요한 모듈만 등록하고, 더 이상 필요하지 않은 모듈은 제거하여 상태를 적절하게 관리할 수 있습니다.
+      5. **개발과 디버깅**  
+      개발 중에 모듈을 추가하거나 제거하면서 기능을 테스트하고, 문제가 발생했을 때 특정 모듈을 제거하여 원인을 찾는 데 유용합니다.
+
+
+      로그인 컴포넌트에 들어왔다고 가정한다.  
+      로그인 기능에서 먼저 모듈을 등록한 뒤 등록 여부를 명확히 확인한다(hasOwnProperty).
+      등록된 모듈을 기준으로 로그인을 진행한다.  
+      (액세스/리프레시토큰 로컬스토리지/세션 에 적절히 저장)  
+      이후 로그아웃을 진행한 뒤 (로컬스토리지/세션 에서 제거) 해당 모듈을 제거한다.
+
+    </details>
+  </details>
+  
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
