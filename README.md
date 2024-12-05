@@ -1850,7 +1850,76 @@ Vue인스턴스에서는 `this.$set()` 문법으로 해당 함수를 호출할 �
 
     </details>
   </details>
-  
+  <details>
+    <summary style="font-size:30px; font-weight:bold; font-style:italic;">
+      Slot과 IOC, DI
+    </summary>
+
+    ## Slot이란?
+    부모 컴포넌트에서 자식 컴포넌트의 내부의 원하는 위치에 컨텐츠를 삽입하는 방식 중 하나이다.  
+    즉, 부모 컴포넌트 쪽에서 정의한 template 코드를 자식 컴포넌트의 특정 위치에 삽입한다.  
+
+    IoC와 DI의 원리로 제어의 주체를 자식이 아닌 부모 즉, 모든 결정권이 자식이 아닌 부모가 갖게된다.  
+    (자식 컴포넌트에 들어갈 내용과, 변수, 함수 등을 부모 컴포넌트에서 결정하게 된다.)
+
+    ### 사용법
+    부모 컴포넌트에서 자식 컴포넌트의 태그를 self closing 하지 않고 `<자식컴포넌트><template></template></자식컴포넌트>` 형태로 선언하며  
+    해당 내용은 자식 컴포넌트에서 `<slot/>` 태그를 통해 해당 위치에 출력시킨다.  
+    기본적으로 자식 컴포넌트 내 template 태그에 `<template v-slot:영역명>` 으로 영역을 지정할 수 있으며  
+    자식 컴포넌트의 `<slot name="영역명"/>` 으로 넘겨받은 템플릿 조각을 일치하는 name의 slot에 바인딩 시켜준다.  
+    이때 v-slot은 #으로 축약하여 `<template #영역명>` 으로 지정이 가능하다.  
+    (만약 아무것도 지정하지 않는다면 #default로 지정된다.)
+    또한 자식 컴포넌트로 부터 부모 컴포넌트로 props 전달도 가능하다.
+    예를들어 `<slot name="영역명" :maerong="값"/>` 와 같이 자식 컴포넌트의 slot 태그에 props를 적용한 뒤   
+    해당 slot과 name이 일치하는 template에서 `<template #영역명="props">`로 전달받을 수 있으며,  
+    (이때 props는 원하는 이름으로 바인딩 가능)  
+    template 태그 하위에서 `<h1>{{ props.maerong }}</h1>` 과 같이 전달 받은 props에 접근하여 값을 사용할 수 있게 된다.
+
+    - 부모 컴포넌트
+      ```html
+      <자식컴포넌트>
+        <template v-slot:header="props"> <!-- 축약형: #header, slot의 props 바인딩 가능 -->
+          <div>
+            <h1>Header! {{ props.nameAttr }}</h1>
+            <p>header!</p>
+          </div>
+        </template>
+        <template v-slot:footer="{ nameAttr }"> <!-- 축약형: #footer -->
+          <div>
+            <h1>Footer! {{ nameAttr }}</h1>
+            <p>footer!</p>
+          </div>
+        </template>
+        <template> <!-- v-slot:default 생략 가능 -->
+          <div>
+            <h1>Nomal!</h1>
+            <p>nomal!</p>
+          </div>
+        </template>
+      </자식컴포넌트>
+      ```
+
+    - 자식컴포넌트
+      ```html
+      <template>
+        <div>
+          <slot name="header" :nameAttr="name"/>
+          <slot/> <!-- v-slot:default 영역 -->
+          <slot name="footer" :nameAttr="name"/>
+        </div>
+      </template>
+      <script>
+      export default {
+        data() {
+          return {
+            name: 'YooHyeok School'
+          }
+        },      
+      }
+      </script>
+      ```
+    
+  </details>
 <details>
 <summary style="font-size:30px; font-weight:bold; font-style:italic;">접은글 템플릿</summary>
 <br>
