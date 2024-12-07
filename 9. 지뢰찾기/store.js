@@ -35,7 +35,7 @@ export const CODE = {
   NORMAL: -1,
   QUESTION: -2,
   FLAG: -3,
-  QUESTION_MINE: -4,
+  QUSTION_MINE: -4,
   FLAG_MINE: -5,
   CLICKED_MINE: -6,
   OPENED: -0, // 0 이상이면 다 opened
@@ -107,33 +107,18 @@ export default new Vuex.Store({
       state.timer = 0;
       state.isHalted = false;
     },
-    [OPEN_CELL] (state, {row, cell}) {
-      // state.tableData[row][cell] = CODE.OPENED
-      Vue.set(state.tableData[row], cell, CODE.OPENED)
+    [OPEN_CELL] (state) {
     },
     [CLICK_MINE] (state) {
       
     },
-    [FLAG_CELL] (state, {row, cell}) {
-      if (state.tableData[row][cell] === CODE.MINE) {
-        Vue.set(state.tableData[row], cell, CODE.FLAG_MINE)
-        return;
-      }
-      Vue.set(state.tableData[row], cell, CODE.FLAG)
+    [FLAG_CELL] (state) {
+      
     },
-    [QUSTION_CELL] (state, {row, cell}) {
-      if (state.tableData[row][cell] === CODE.FLAG_MINE) {
-        Vue.set(state.tableData[row], cell, CODE.QUESTION_MINE)
-        return;
-      }
-      Vue.set(state.tableData[row], cell, CODE.QUESTION)
+    [QUSTION_CELL] (state) {
+      
     },
-    [NORMALIZE_CELL] (state, {row, cell}) {
-      if (state.tableData[row][cell] === CODE.QUESTION_MINE) {
-        Vue.set(state.tableData[row], cell, CODE.MINE)
-        return;
-      }
-      Vue.set(state.tableData[row], cell, CODE.NORMAL)
+    [NORMALIZE_CELL] (state) {
       
     },
     [INCREMENT_TIMER] (state) {
