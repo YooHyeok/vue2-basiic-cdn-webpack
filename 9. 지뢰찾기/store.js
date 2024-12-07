@@ -35,7 +35,7 @@ export const CODE = {
   NORMAL: -1,
   QUESTION: -2,
   FLAG: -3,
-  QUSTION_MINE: -4,
+  QUESTION_MINE: -4,
   FLAG_MINE: -5,
   CLICKED_MINE: -6,
   OPENED: -0, // 0 이상이면 다 opened
@@ -95,6 +95,7 @@ export default new Vuex.Store({
       mine: 0,
     },
     timer: 0,
+    isHalted: true, // 중단여부
     result: '',
   },
   getters: {
@@ -103,25 +104,40 @@ export default new Vuex.Store({
     [START_GAME] (state, {row, cell, mine}) { // payload = {row, cell, mine}
       state.data = {row, cell, mine}
       state.tableData = plantMine(row, cell, mine)
-
+      state.timer = 0;
+      state.isHalted = false;
     },
-    [OPEN_CELL] (state) {
-      
+    [OPEN_CELL] (state, {row, cell}) {
+      // state.tableData[row][cell] = CODE.OPENED
+      Vue.set(state.tableData[row], cell, CODE.OPENED)
     },
     [CLICK_MINE] (state) {
       
     },
-    [FLAG_CELL] (state) {
-      
+    [FLAG_CELL] (state, {row, cell}) {
+      if (state.tableData[row][cell] === CODE.MINE) {
+        Vue.set(state.tableData[row], cell, CODE.FLAG_MINE)
+        return;
+      }
+      Vue.set(state.tableData[row], cell, CODE.FLAG)
     },
-    [QUSTION_CELL] (state) {
-      
+    [QUSTION_CELL] (state, {row, cell}) {
+      if (state.tableData[row][cell] === CODE.FLAG_MINE) {
+        Vue.set(state.tableData[row], cell, CODE.QUESTION_MINE)
+        return;
+      }
+      Vue.set(state.tableData[row], cell, CODE.QUESTION)
     },
-    [NORMALIZE_CELL] (state) {
+    [NORMALIZE_CELL] (state, {row, cell}) {
+      if (state.tableData[row][cell] === CODE.QUESTION_MINE) {
+        Vue.set(state.tableData[row], cell, CODE.MINE)
+        return;
+      }
+      Vue.set(state.tableData[row], cell, CODE.NORMAL)
       
     },
     [INCREMENT_TIMER] (state) {
-      
+      state.timer++;
     },
     
   },
