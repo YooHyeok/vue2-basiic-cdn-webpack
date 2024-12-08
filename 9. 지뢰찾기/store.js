@@ -111,8 +111,9 @@ export default new Vuex.Store({
       // state.tableData[row][cell] = CODE.OPENED
       Vue.set(state.tableData[row], cell, CODE.OPENED)
     },
-    [CLICK_MINE] (state) {
-      
+    [CLICK_MINE] (state, {row, cell}) {
+      state.isHalted = true;
+      Vue.set(state.tableData[row], cell, CODE.CLICKED_MINE)
     },
     [FLAG_CELL] (state, {row, cell}) {
       if (state.tableData[row][cell] === CODE.MINE) {
