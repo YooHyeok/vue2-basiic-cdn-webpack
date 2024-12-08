@@ -114,14 +114,26 @@ export default new Vuex.Store({
     [CLICK_MINE] (state) {
       
     },
-    [FLAG_CELL] (state) {
-
+    [FLAG_CELL] (state, {row, cell}) {
+      if (state.tableData[row][cell] === CODE.MINE) {
+        Vue.set(state.tableData[row], cell, CODE.FLAG_MINE)
+        return;
+      }
+      Vue.set(state.tableData[row], cell, CODE.FLAG)
     },
-    [QUSTION_CELL] (state) {
-
+    [QUSTION_CELL] (state, {row, cell}) {
+      if (state.tableData[row][cell] === CODE.FLAG_MINE) {
+        Vue.set(state.tableData[row], cell, CODE.QUESTION_MINE)
+        return;
+      }
+      Vue.set(state.tableData[row], cell, CODE.QUESTION)
     },
-    [NORMALIZE_CELL] (state) {
-      
+    [NORMALIZE_CELL] (state, {row, cell}) {
+      if (state.tableData[row][cell] === CODE.QUESTION_MINE) {
+        Vue.set(state.tableData[row], cell, CODE.MINE)
+        return;
+      }
+      Vue.set(state.tableData[row], cell, CODE.NORMAL)
     },
     [INCREMENT_TIMER] (state) {
       state.timer++;
