@@ -946,6 +946,27 @@ output을 로컬에 직접적으로 저장하지 않고 서버 프로세스가 �
     ```
     그러나 computed는 접근한 data 변수가 변경되지 않는 이상 한번 연산된 결과값이 캐싱되어 출력된다.
 
+### template로 부터 computed 속성 함수에 파라미터 전달하기.
+기본적인 방식으로는 전달되지 않으며, High-Older Function 즉, 고차함수 방식을 통해 전달이 가능하다.  
+아래 코드를 보면 computed 함수 안에서 함수를 return하는데, 이때 return하는 함수의 매개변수에서 파라미터를 전달받을 수 있게 된다.
+
+```html
+<template>
+	<div>{{ callByValue(1, 2) }}</div>
+</template>
+<script>
+export default {
+	computed: {
+		callByValue(state) {
+			return function closure(row, cell) {
+				console.log(arg1, arg2)
+			}
+		},
+		
+	}
+}
+</script>
+```
 </details>
 <details>
   <summary style="font-size:30px; font-weight:bold; font-style:italic;">
