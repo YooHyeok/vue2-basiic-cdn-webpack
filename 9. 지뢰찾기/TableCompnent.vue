@@ -18,7 +18,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import store, { CODE, FLAG_CELL, NORMALIZE_CELL, OPEN_CELL, QUSTION_CELL } from "./store";
+import store, { CLICK_MINE, CODE, FLAG_CELL, NORMALIZE_CELL, OPEN_CELL, QUSTION_CELL } from "./store";
 export default {
   store,
   name: 'TableComponent',
@@ -80,7 +80,16 @@ export default {
   methods: {
     onClickTd(row, cell) {
       if (this.isHalted) return;
-      store.commit(OPEN_CELL, {row, cell})
+      switch (this.tableData[row][cell]) {
+        case CODE.NORMAL:
+          store.commit(OPEN_CELL, {row, cell})
+          break;
+        case CODE.MINE:
+          store.commit(CLICK_MINE, {row, cell})
+          break;
+        default:
+          break;
+      }
     },
     onRightClickTd(row, cell) {
       if (this.isHalted) return;
