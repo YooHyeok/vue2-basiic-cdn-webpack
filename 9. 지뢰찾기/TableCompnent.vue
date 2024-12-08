@@ -63,13 +63,13 @@ export default {
           case CODE.NORMAL :
             return '';
           case CODE.MINE :
-            return 'X';
+            return '✖️';
           case CODE.FLAG, CODE.FLAG_MINE :
-            return '!'
+            return '🏴'
           case CODE.QUESTION, CODE.QUESTION_MINE :
-            return '?';
+            return '❓';
           case CODE.CLICKED_MINE :
-            return '펑';
+            return '💣';
           default : 
             return '';
         }
