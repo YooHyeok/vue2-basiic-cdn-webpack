@@ -1,7 +1,16 @@
 <template>
   <table>
-    <tr v-for="(rowData, rowIndex) in tableData" :key="rowIndex">
-      <td v-for="(cellData, cellIndex) in rowData" :key="cellIndex" :style="cellDataStyle(rowIndex, cellIndex)" @click="onClickTd(rowIndex, cellIndex)" >
+    <tr 
+      v-for="(rowData, rowIndex) in tableData" 
+      :key="rowIndex"
+    >
+      <td 
+        v-for="(cellData, cellIndex) in rowData" 
+        :key="cellIndex" 
+        :style="cellDataStyle(rowIndex, cellIndex)" 
+        @click="onClickTd(rowIndex, cellIndex)" 
+        @contextmenu.prevent.stop="onRightClickTd(rowIndex, cellIndex)"
+      >
         {{ cellDataText(rowIndex, cellIndex) }}
       </td>
     </tr>
@@ -72,6 +81,20 @@ export default {
     onClickTd(row, cell) {
       if (this.isHalted) return;
       store.commit(OPEN_CELL, {row, cell})
+    },
+    onRightClickTd(row, cell) {
+      if (this.isHalted) return;
+      switch (store.state.tableData[row][cell]) {
+          case CODE.NORMAL,CODE.MINE :
+            store.commit(FLAG_CELL, {row, cell})
+            break;
+          case CODE.FLAG, CODE.FLAG_MINE :
+            store.commit(QUSTION_CELL, {row, cell})
+            break;
+          case CODE.QUESTION, CODE.QUESTION_MINE :
+            store.commit(NORMALIZE_CELL, {row, cell})
+            break;
+        }
     }
   }
 }
