@@ -108,8 +108,32 @@ export default new Vuex.Store({
       state.isHalted = false;
     },
     [OPEN_CELL] (state, {row, cell}) {
+      if (row < 0 || row >= state.tableData.length || cell < 0)
+      /* 주변 지뢰 갯수 - 동, 서, 남, 북, 대각선 */
+      function checkAround() {
+        let around = [];
+        if (state.tableData[row - 1]) {
+          around = around.concat([
+          state.tableData[row - 1][cell - 1], state.tableData[row - 1][cell], state.tableData[row - 1][cell + 1],
+          ])
+        }
+        around = around.concat([
+          state.tableData[row][cell - 1], state.tableData[row][cell], state.tableData[row][cell + 1],
+        ])
+        if (state.tableData[row + 1]) {
+          around = around.concat([
+            state.tableData[row + 1][cell - 1], state.tableData[row + 1][cell], state.tableData[row + 1][cell + 1],
+          ])
+        }
+        const counted = around.filter(function (value) {
+          return [CODE.MINE, CODE.FLAG, CODE.QUESTION_MINE].includes(value)
+        })
+        return counted.length;
+      }
+      const count = checkAround();
       // state.tableData[row][cell] = CODE.OPENED
-      Vue.set(state.tableData[row], cell, CODE.OPENED)
+      // Vue.set(state.tableData[row], cell, CODE.OPENED)
+      Vue.set(state.tableData[row], cell, count)
     },
     [CLICK_MINE] (state, {row, cell}) {
       state.isHalted = true;
