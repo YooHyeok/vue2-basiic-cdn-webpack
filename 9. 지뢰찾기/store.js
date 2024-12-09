@@ -107,7 +107,8 @@ export default new Vuex.Store({
       state.tableData = plantMine(row, cell, mine)
       state.timer = 0;
       state.isHalted = false;
-      state.opendCount = 0;
+      state.openedCount = 0;
+      state.result = '';
     },
     [OPEN_CELL] (state, {row, cell}) {
       let openedCount = 0;
