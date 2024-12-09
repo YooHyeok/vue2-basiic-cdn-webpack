@@ -73,7 +73,7 @@ export default {
           case CODE.CLICKED_MINE :
             return '💣';
           default : // open 성공: 0
-            return ''; // 주변 지뢰 갯수:  0인 경우 빈칸
+            return store.state.tableData[row][cell] || ''; // 주변 지뢰 갯수:  0인 경우 빈칸
         }
       }
     },
