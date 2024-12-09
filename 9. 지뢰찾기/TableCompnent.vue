@@ -60,18 +60,20 @@ export default {
     cellDataText() {
       return function(row, cell) {
         switch (store.state.tableData[row][cell]) {
-          case CODE.NORMAL :
+          case CODE.NORMAL : // 지뢰x -1
             return '';
-          case CODE.MINE :
+          case CODE.MINE : // 지뢰o -7
             return '✖️';
-          case CODE.FLAG, CODE.FLAG_MINE :
+          case CODE.FLAG : 
+          case CODE.FLAG_MINE :
             return '🏴'
-          case CODE.QUESTION, CODE.QUESTION_MINE :
+          case CODE.QUESTION:
+          case CODE.QUESTION_MINE :
             return '❓';
           case CODE.CLICKED_MINE :
             return '💣';
-          default : 
-            return '';
+          default : // open 성공: 0
+            return ''; // 주변 지뢰 갯수:  0인 경우 빈칸
         }
       }
     },
@@ -94,13 +96,16 @@ export default {
     onRightClickTd(row, cell) {
       if (this.isHalted) return;
       switch (store.state.tableData[row][cell]) {
-          case CODE.NORMAL,CODE.MINE :
+          case CODE.NORMAL :
+          case CODE.MINE :
             store.commit(FLAG_CELL, {row, cell})
             break;
-          case CODE.FLAG, CODE.FLAG_MINE :
+          case CODE.FLAG :
+          case CODE.FLAG_MINE :
             store.commit(QUSTION_CELL, {row, cell})
             break;
-          case CODE.QUESTION, CODE.QUESTION_MINE :
+          case CODE.QUESTION :
+          case CODE.QUESTION_MINE :
             store.commit(NORMALIZE_CELL, {row, cell})
             break;
         }
