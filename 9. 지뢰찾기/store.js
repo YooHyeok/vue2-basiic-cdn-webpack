@@ -108,9 +108,18 @@ export default new Vuex.Store({
       state.isHalted = false;
     },
     [OPEN_CELL] (state, {row, cell}) {
-      if (row < 0 || row >= state.tableData.length || cell < 0)
       /* 주변 지뢰 갯수 - 동, 서, 남, 북, 대각선 */
-      function checkAround() {
+      const checked = [];
+      function checkAround(row, cell) {
+        let checkRowOrCellIsUndifined = row < 0 || row >= state.tableData.length || cell < 0 || cell >= state.tableData[0].length
+        /* 주변 칸이 UNDEFINED라면 검사 X */
+        if (checkRowOrCellIsUndifined) return;
+        /* 주변 칸이 지뢰이거나 이미 열려있다면 검사 X */
+        if ([CODE.OPENED, CODE.FLAG, CODE.QUESTION].includes(state.tableData[row][cell])) return;
+        /* 한번 연 칸이면 종료, 처음 연 칸이면 체크 추가 */
+        if (checked.includes(row + '/' + cell)) return;
+        else {checked.push(row + '/' + cell)}
+        
         let around = [];
         if (state.tableData[row - 1]) {
           around = around.concat([
@@ -128,12 +137,29 @@ export default new Vuex.Store({
         const counted = around.filter(function (value) {
           return [CODE.MINE, CODE.FLAG, CODE.QUESTION_MINE].includes(value)
         })
-        return counted.length;
+        if (counted.length === 0 && row > -1) { // 주변 칸에 지뢰가 하나도 없으면 모두 연다.
+          const near  = [];
+          if (row - 1 > -1) {
+            near.push([row - 1, cell - 1]);
+            near.push([row - 1, cell]);
+            near.push([row - 1, cell + 1]);
+          }
+          near.push([row, cell - 1]);
+          near.push([row, cell + 1]);
+          if (row + 1 < state.tableData.length) {
+            near.push([row + 1, cell - 1]);
+            near.push([row + 1, cell]);
+            near.push([row + 1, cell + 1]);
+          }
+          near.forEach(n => {
+            if (state.tableData[n[0]][n[1]] !== CODE.OPENED) {
+              checkAround(n[0], n[1])
+            }
+          })
+        }
+        Vue.set(state.tableData[row], cell, counted.length)
       }
-      const count = checkAround();
-      // state.tableData[row][cell] = CODE.OPENED
-      // Vue.set(state.tableData[row], cell, CODE.OPENED)
-      Vue.set(state.tableData[row], cell, count)
+      checkAround(row, cell);
     },
     [CLICK_MINE] (state, {row, cell}) {
       state.isHalted = true;
