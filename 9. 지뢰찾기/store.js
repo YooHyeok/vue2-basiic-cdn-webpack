@@ -97,6 +97,7 @@ export default new Vuex.Store({
     timer: 0,
     isHalted: true, // 중단여부
     result: '',
+    openedCount: 0
   },
   getters: {
   },
@@ -106,10 +107,12 @@ export default new Vuex.Store({
       state.tableData = plantMine(row, cell, mine)
       state.timer = 0;
       state.isHalted = false;
+      state.opendCount = 0;
     },
     [OPEN_CELL] (state, {row, cell}) {
-      /* 주변 지뢰 갯수 - 동, 서, 남, 북, 대각선 */
+      let openedCount = 0;
       const checked = [];
+      /* 주변 지뢰 갯수 - 동, 서, 남, 북, 대각선 */
       function checkAround(row, cell) {
         let checkRowOrCellIsUndifined = row < 0 || row >= state.tableData.length || cell < 0 || cell >= state.tableData[0].length
         /* 주변 칸이 UNDEFINED라면 검사 X */
@@ -157,9 +160,24 @@ export default new Vuex.Store({
             }
           })
         }
+        if (state.tableData[row][cell] === CODE.NORMAL) {
+          openedCount += 1;
+        }
         Vue.set(state.tableData[row], cell, counted.length)
+        // return counted.length;
       }
       checkAround(row, cell);
+      let isHalted = false;
+      let result;
+      /* 승리 조건 : 가로 * 세로 - 지뢰수 === 내가 연 칸의 갯수 */
+      if (state.data.row * state.data.cell - state.data.mine === state.openedCount + openedCount) {
+        isHalted = true;
+        result = `${state.timer}초만에 승리하셨습니다.`
+      }
+      state.openedCount += openedCount;
+      state.isHalted = isHalted;
+      state.result = result;
+      console.log(state)
     },
     [CLICK_MINE] (state, {row, cell}) {
       state.isHalted = true;
