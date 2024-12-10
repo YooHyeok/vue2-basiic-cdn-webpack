@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div>
+      <router-link to="/tictactoe">틱택토</router-link>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 <script>
