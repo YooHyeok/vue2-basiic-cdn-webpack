@@ -3,7 +3,9 @@
   </div>
 </template>
 <script>
+import router from './routes'
 export default {
+  router,
   name: 'Router'
 }
 </script>
