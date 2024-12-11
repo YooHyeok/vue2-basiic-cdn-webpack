@@ -3,6 +3,7 @@
     <div>게임 매쳐 진입</div>
     <div v-if="currentGame === 'tictactoe'"><TicTacToe/></div>
     <div v-else>일치하는 게임이 없습니다.</div>
+    <div v-if="isQueryString">{{ this.$route.query }}</div>
   </div>
 </template>
 <script>
@@ -13,6 +14,9 @@ export default {
   components: {
     TicTacToe
   },
+  created() {
+    console.log(this.$route.query)
+  },
   mounted() {
     console.log(this.$router) // vue router 전체에 대한 설정
     console.log(this.$route) // 현재 주소에 대한 설정들
@@ -20,6 +24,9 @@ export default {
   computed: {
     currentGame() {
       return this.$route.params.name;
+    },
+    isQueryString() {
+      return Object.keys(this.$route.query).length > 0;
     }
   }
 }
