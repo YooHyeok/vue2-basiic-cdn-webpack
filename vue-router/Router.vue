@@ -2,6 +2,8 @@
   <div>
     <div>
       <router-link to="/tictactoe">틱택토</router-link>
+      <router-link to="/game/tictactoe">틱택토 매쳐</router-link>
+      <router-link to="/game/mine">지뢰찾기</router-link>
     </div>
     <router-view></router-view>
   </div>
